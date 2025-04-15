@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Level/Scenes/LobbyScene.unity
     guid: f141e199b22abca44818509d2eb07e39
+  - enabled: 1
+    path: Assets/Level/Scenes/KyungHakScene.unity
+    guid: 79f718695e6d25f44ae4819fac0d58da
   m_configObjects: {}
