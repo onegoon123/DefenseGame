@@ -9,8 +9,7 @@ public class TitleMenu : MonoBehaviour, IPointerClickHandler
 {
     public void OnPointerClick(PointerEventData eventData)
     {
-        //SceneLoader.instance.LoadScene("LobbyScene");
-        SceneLoader.instance.LoadScene("KyungHakScene");
+        SceneLoader.instance.LoadScene("LobbyScene");
     }
 
 }
