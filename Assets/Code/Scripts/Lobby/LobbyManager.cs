@@ -18,6 +18,12 @@ public class LobbyManager : MonoBehaviour
 #endif
         currentPanel = GameObject.Find("Lobby Panel");
     }
+
+    public void LoadScene(string sceneName)
+    {
+        SceneLoader.instance.LoadScene(sceneName);
+    }
+
     public void SwitchPanel(GameObject panel)
     {
         if (currentPanel != null)
@@ -55,6 +61,9 @@ public class LobbyManager : MonoBehaviour
     {
         transform.Find("Lobby Panel")?.gameObject.SetActive(true);
         transform.Find("Land Panel")?.gameObject.SetActive(false);
+        transform.Find("Stage1 Panel")?.gameObject.SetActive(false);
+        transform.Find("Character Panel")?.gameObject.SetActive(false);
+        transform.Find("Shop Panel")?.gameObject.SetActive(false);
     }
 
     [ContextMenu("Land Panel")]
@@ -62,6 +71,38 @@ public class LobbyManager : MonoBehaviour
     {
         transform.Find("Lobby Panel")?.gameObject.SetActive(false);
         transform.Find("Land Panel")?.gameObject.SetActive(true);
+        transform.Find("Stage1 Panel")?.gameObject.SetActive(false);
+        transform.Find("Character Panel")?.gameObject.SetActive(false);
+        transform.Find("Shop Panel")?.gameObject.SetActive(false);
     }
 
+    [ContextMenu("Stage1 Panel")]
+    private void Stage1Panel()
+    {
+        transform.Find("Lobby Panel")?.gameObject.SetActive(false);
+        transform.Find("Land Panel")?.gameObject.SetActive(false);
+        transform.Find("Stage1 Panel")?.gameObject.SetActive(true);
+        transform.Find("Character Panel")?.gameObject.SetActive(false);
+        transform.Find("Shop Panel")?.gameObject.SetActive(false);
+    }
+
+    [ContextMenu("Character Panel")]
+    private void CharacterPanel()
+    {
+        transform.Find("Lobby Panel")?.gameObject.SetActive(false);
+        transform.Find("Land Panel")?.gameObject.SetActive(false);
+        transform.Find("Stage1 Panel")?.gameObject.SetActive(false);
+        transform.Find("Character Panel")?.gameObject.SetActive(true);
+        transform.Find("Shop Panel")?.gameObject.SetActive(false);
+    }
+
+    [ContextMenu("Shop Panel")]
+    private void ShopPanel()
+    {
+        transform.Find("Lobby Panel")?.gameObject.SetActive(false);
+        transform.Find("Land Panel")?.gameObject.SetActive(false);
+        transform.Find("Stage1 Panel")?.gameObject.SetActive(false);
+        transform.Find("Character Panel")?.gameObject.SetActive(false);
+        transform.Find("Shop Panel")?.gameObject.SetActive(true);
+    }
 }
