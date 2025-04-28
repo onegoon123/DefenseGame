@@ -3504,8 +3504,9 @@ MonoBehaviour:
   csvFile: {fileID: 4900000, guid: b8180ebebe016c14496f5b7438aca6cb, type: 3}
   prefabList:
   - {fileID: 4551230641668630736, guid: 3264b905a7879c84cbadfac55300a8cb, type: 3}
-  - {fileID: 3021852696480555305, guid: 12ebe9d7e382aa047807ecc3aec8ec13, type: 3}
   - {fileID: 8342078219822298413, guid: c0e45d01cdeae124dae7fb18c96620e9, type: 3}
+  prefabList_Check:
+  - {fileID: 3021852696480555305, guid: 12ebe9d7e382aa047807ecc3aec8ec13, type: 3}
   cellSize: {x: 10, y: 10}
   cellGap: {x: 0, y: 0}
 --- !u!1 &578989267
