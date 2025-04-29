@@ -1,0 +1,65 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Mathematics;
+using UnityEngine;
+
+public class StageManager : MonoBehaviour
+{
+    public static StageManager instance { get; private set; }
+
+    public GameObject TestPrefab;
+
+    // 하나의 칸마다의 사이즈를 지정
+    [SerializeField]
+    private Vector2 cellSize = new Vector2(10.0f, 10.0f);
+    // 칸마다의 간격을 지정
+    [SerializeField]
+    private Vector2 cellGap = Vector3.zero;
+    // 칸의 위치를 조정
+    [SerializeField]
+    private Vector3 cellOffset = Vector3.zero;
+
+    // 가상의 평면 충돌체
+    private Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            // 기존 인스턴스 제거
+            Destroy(instance);
+        }
+        instance = this;
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (groundPlane.Raycast(ray, out float enter))
+            {
+                Vector3 hitPoint = ray.GetPoint(enter);
+                int2 gridPos = WorldToGridPosition(hitPoint);
+                Debug.Log(gridPos);
+                GameObject newObject = Instantiate(TestPrefab);
+                newObject.transform.position += GridToWorldPosition(gridPos);
+            }
+
+        }
+    }
+
+    public int2 WorldToGridPosition(Vector3 worldPos)
+    {
+        int GridX = Mathf.FloorToInt((worldPos.x + cellOffset.x) / cellSize.x);
+        int GridY = Mathf.FloorToInt((worldPos.z + cellOffset.z) / cellSize.y);
+        return new int2(GridX, GridY);
+    }
+
+    public Vector3 GridToWorldPosition(int2 gridPos)
+    {
+        Vector3 worldPos = new Vector3(gridPos.x * cellSize.x, 0, gridPos.y * cellSize.y) + new Vector3(gridPos.x * cellGap.x, 0, gridPos.y * cellGap.y);
+        return worldPos;
+    }
+}

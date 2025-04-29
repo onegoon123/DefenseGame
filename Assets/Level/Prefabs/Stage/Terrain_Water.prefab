@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7840013486839732011}
   - component: {fileID: 4529437026753183377}
-  - component: {fileID: 5927069346329462918}
   m_Layer: 0
   m_Name: Terrain_Water
   m_TagString: Untagged
@@ -74,26 +73,6 @@ Terrain:
   m_EnableHeightmapRayTracing: 1
   m_EnableTreesAndDetailsRayTracing: 0
   m_TreeMotionVectorModeOverride: 3
---- !u!154 &5927069346329462918
-TerrainCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8342078219822298413}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_TerrainData: {fileID: 15600000, guid: 6ec95d6dd80c0c443b10f188791fd2b8, type: 2}
-  m_EnableTreeColliders: 1
 --- !u!1001 &1104641051149198675
 PrefabInstance:
   m_ObjectHideFlags: 0

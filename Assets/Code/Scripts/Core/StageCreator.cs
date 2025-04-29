@@ -18,7 +18,10 @@ public class StageCreator : MonoBehaviour
     // 하나의 칸마다의 사이즈를 지정
     public Vector2 cellSize = new Vector2(10.0f, 10.0f);
     // 칸마다의 간격을 지정
-    public Vector2 cellGap = new Vector2(0.0f, 0.0f);
+    public Vector2 cellGap = Vector3.zero;
+    // 칸의 위치를 조정
+    public Vector3 cellOffset = Vector3.zero;
+
 
     public void CreateStage()
     {
@@ -74,7 +77,7 @@ public class StageCreator : MonoBehaviour
         GameObject newObject = Instantiate(prefab, stageParent);
 
         // 위치 조정
-        newObject.transform.position += new Vector3(x * cellSize.x, 0, z * cellSize.y) + new Vector3(x * cellGap.x, 0, z * cellGap.y);
+        newObject.transform.position += new Vector3(x * cellSize.x, 0, z * cellSize.y) + new Vector3(x * cellGap.x, 0, z * cellGap.y) + cellOffset;
     }
 
 }
