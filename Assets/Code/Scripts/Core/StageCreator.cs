@@ -7,6 +7,8 @@ using static UnityEngine.Rendering.DebugUI;
 public class StageCreator : MonoBehaviour
 {
 
+    private StageManager stageManager;
+
     // 스테이지를 생성할 오브젝트들의 부모
     public Transform stageParent;
     // 생성할 스테이지의 데이터 CSV를 지정
@@ -21,7 +23,7 @@ public class StageCreator : MonoBehaviour
     public Vector2 cellGap = Vector3.zero;
     // 칸의 위치를 조정
     public Vector3 cellOffset = Vector3.zero;
-
+    
 
     public void CreateStage()
     {
