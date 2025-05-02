@@ -2124,6 +2124,8 @@ MonoBehaviour:
   cellSize: {x: 10, y: 10}
   cellGap: {x: 0, y: 0}
   cellOffset: {x: 5, y: 0, z: 5}
+  Pieces: []
+  types: 
 --- !u!1 &619654311
 GameObject:
   m_ObjectHideFlags: 0

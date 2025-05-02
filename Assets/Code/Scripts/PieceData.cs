@@ -11,5 +11,5 @@ public class PieceData
     public int rank  = 0;
     public int Type = 0;
 
-    //List<PieceStats> pieceStats = new List<PieceStats>();
+    public List<PieceStats> pieceStats = new List<PieceStats>();
 }

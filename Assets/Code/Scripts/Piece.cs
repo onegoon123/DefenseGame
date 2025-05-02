@@ -1,8 +1,10 @@
 
 // 체스말 클래스입니다
-
+using System;
 using UnityEditor.SceneTemplate;
 using UnityEngine;
+
+[Serializable]
 public struct PieceStats
 {
     /// <summary> 캐릭터의 최대 체력입니다 </summary>
@@ -17,18 +19,34 @@ public struct PieceStats
 
 public class Piece
 {
-    //private int pieceId = -1;        // id
-    //private string pieceName = "";   // 이름
-    //private int level = 1;           // 레벨
-    //private int rank  = 0;           // 랭크(돌파)
+    private int pieceId = -1;            // id
+    //private string pieceName = "";    // 이름
+    private int level = 1;              // 레벨
+    //private int rank  = 0;            // 랭크(돌파)
 
     /// <summary> 캐릭터의 스텟입니다 </summary>
-    public PieceStats stats
+    public PieceStats stats;
+
+    public Piece(int id)
     {
-        get
-        {
-            return stats;
-        }
+        pieceId = id;
+        level = 1;
+        PieceData data = DataManager.instance.GetPieceData(id);
+        stats = data.pieceStats[level - 1];
     }
 
+    public Piece(int id, int lv)
+    {
+        pieceId = id;
+        level = lv;
+        PieceData data = DataManager.instance.GetPieceData(id);
+        stats = data.pieceStats[level - 1];
+    }
+
+
+    public int GetId() { return pieceId; }
+    public void SetId(int id) { pieceId = id; }
+
+    public void SetLevel(int lv) { level = lv; }
+    public int GetLevel() { return level; }
 }
