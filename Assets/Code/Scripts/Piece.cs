@@ -17,15 +17,18 @@ public struct PieceStats
     public float atkRange;
 }
 
+[Serializable]
 public class Piece
 {
+    [SerializeField]
     private int pieceId = -1;            // id
     //private string pieceName = "";    // 이름
+    [SerializeField]
     private int level = 1;              // 레벨
     //private int rank  = 0;            // 랭크(돌파)
 
     /// <summary> 캐릭터의 스텟입니다 </summary>
-    public PieceStats stats;
+    private PieceStats stats;
 
     public Piece(int id)
     {

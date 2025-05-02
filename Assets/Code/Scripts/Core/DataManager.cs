@@ -1,8 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor.Compilation;
 using UnityEngine;
 
+[System.Serializable]
+public class SaveData
+{
+    public int level = 1;
+    public int money = 0;
+    [SerializeField]
+    public List<Piece> pieces = new List<Piece>(20);
+}
 
 public class DataManager : MonoBehaviour
 {
@@ -21,12 +30,11 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private SaveData data = new SaveData();
 
     [SerializeField]
     private List<PieceData> pieceDatas = new List<PieceData>();     // 고정되어 있는 Piece 데이터
-
-    [SerializeField]
-    private List<Piece> pieces = new List<Piece>(20);               // 플레이어의 Piece 데이터
 
     [ContextMenu("Load Piece Data")]
     public void LoadPieceData()
@@ -95,30 +103,51 @@ public class DataManager : MonoBehaviour
 
     public void SetPiece(Piece piece)
     {
-        if (pieces.Count <= piece.GetId())
+        if (data.pieces.Count <= piece.GetId())
         {
             Debug.LogError("Pieces 사이즈가 작습니다.");
             return;
         }
 
-        pieces[piece.GetId()] = piece;
+        data.pieces[piece.GetId()] = piece;
     }
 
     public Piece GetPiece(int id)
     {
-        if (pieces.Count <= id)
+        if (data.pieces.Count <= id)
         {
             Debug.LogError("Pieces 사이즈가 작습니다.");
             return null;
         }
-        if (pieces[id] == null)
+        if (data.pieces[id] == null)
         {
             Debug.LogError("존재하지 않는 Piece ID 입니다");
             return null;
         }
 
-        return pieces[id];
+        return data.pieces[id];
     }
 
+    [ContextMenu("Save")]
+    public void SaveGame()
+    {
+        string json = JsonUtility.ToJson(data, true);
+        File.WriteAllText(Application.persistentDataPath + "/save.json", json);
+    }
+
+    [ContextMenu("Load")]
+    public void LoadGame()
+    {
+        string path = Application.persistentDataPath + "/save.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            data = JsonUtility.FromJson<SaveData>(json);
+        }
+        else
+        {
+            data = new SaveData();
+        }
+    }
 
 }

@@ -6948,15 +6948,425 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b478501a67a31e49bb522419e63aa86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    level: 10
+    money: 1234
+    pieces:
+    - pieceId: 0
+      level: 1
+    - pieceId: 1
+      level: 2
   pieceDatas:
   - pieceId: 0
     pieceName: "\uAC00"
     rank: 1
     Type: 0
+    pieceStats:
+    - hp: 1
+      atk: 110
+      atkSpeed: 11
+      atkRange: 1
+    - hp: 2
+      atk: 120
+      atkSpeed: 12
+      atkRange: 1
+    - hp: 3
+      atk: 130
+      atkSpeed: 13
+      atkRange: 1
+    - hp: 4
+      atk: 140
+      atkSpeed: 14
+      atkRange: 0.8
+    - hp: 5
+      atk: 150
+      atkSpeed: 15
+      atkRange: 0.8
+    - hp: 6
+      atk: 160
+      atkSpeed: 16
+      atkRange: 0.8
+    - hp: 7
+      atk: 170
+      atkSpeed: 17
+      atkRange: 0.8
+    - hp: 8
+      atk: 180
+      atkSpeed: 18
+      atkRange: 0.8
+    - hp: 9
+      atk: 190
+      atkSpeed: 19
+      atkRange: 0.8
+    - hp: 10
+      atk: 200
+      atkSpeed: 20
+      atkRange: 0.8
+    - hp: 11
+      atk: 210
+      atkSpeed: 21
+      atkRange: 0.8
+    - hp: 12
+      atk: 220
+      atkSpeed: 22
+      atkRange: 0.8
+    - hp: 13
+      atk: 230
+      atkSpeed: 23
+      atkRange: 0.8
+    - hp: 14
+      atk: 240
+      atkSpeed: 24
+      atkRange: 0.8
+    - hp: 15
+      atk: 250
+      atkSpeed: 25
+      atkRange: 0.8
+    - hp: 16
+      atk: 260
+      atkSpeed: 26
+      atkRange: 0.8
+    - hp: 17
+      atk: 270
+      atkSpeed: 27
+      atkRange: 0.8
+    - hp: 18
+      atk: 280
+      atkSpeed: 28
+      atkRange: 0.8
+    - hp: 19
+      atk: 290
+      atkSpeed: 29
+      atkRange: 0.7
+    - hp: 20
+      atk: 300
+      atkSpeed: 30
+      atkRange: 0.7
+    - hp: 21
+      atk: 310
+      atkSpeed: 31
+      atkRange: 0.7
+    - hp: 22
+      atk: 320
+      atkSpeed: 32
+      atkRange: 0.7
+    - hp: 23
+      atk: 330
+      atkSpeed: 33
+      atkRange: 0.7
+    - hp: 24
+      atk: 340
+      atkSpeed: 34
+      atkRange: 0.7
+    - hp: 25
+      atk: 350
+      atkSpeed: 35
+      atkRange: 0.7
+    - hp: 26
+      atk: 360
+      atkSpeed: 36
+      atkRange: 0.7
+    - hp: 27
+      atk: 370
+      atkSpeed: 37
+      atkRange: 0.7
+    - hp: 28
+      atk: 380
+      atkSpeed: 38
+      atkRange: 0.7
+    - hp: 29
+      atk: 390
+      atkSpeed: 39
+      atkRange: 0.7
+    - hp: 30
+      atk: 400
+      atkSpeed: 40
+      atkRange: 0.7
+    - hp: 31
+      atk: 410
+      atkSpeed: 41
+      atkRange: 0.7
+    - hp: 32
+      atk: 420
+      atkSpeed: 42
+      atkRange: 0.7
+    - hp: 33
+      atk: 430
+      atkSpeed: 43
+      atkRange: 0.7
+    - hp: 34
+      atk: 440
+      atkSpeed: 44
+      atkRange: 0.7
+    - hp: 35
+      atk: 450
+      atkSpeed: 45
+      atkRange: 0.7
+    - hp: 36
+      atk: 460
+      atkSpeed: 46
+      atkRange: 0.7
+    - hp: 37
+      atk: 470
+      atkSpeed: 47
+      atkRange: 0.7
+    - hp: 38
+      atk: 480
+      atkSpeed: 48
+      atkRange: 0.7
+    - hp: 39
+      atk: 490
+      atkSpeed: 49
+      atkRange: 0.7
+    - hp: 40
+      atk: 500
+      atkSpeed: 50
+      atkRange: 0.5
+    - hp: 41
+      atk: 510
+      atkSpeed: 51
+      atkRange: 0.5
+    - hp: 42
+      atk: 520
+      atkSpeed: 52
+      atkRange: 0.5
+    - hp: 43
+      atk: 530
+      atkSpeed: 53
+      atkRange: 0.5
+    - hp: 44
+      atk: 540
+      atkSpeed: 54
+      atkRange: 0.5
+    - hp: 45
+      atk: 550
+      atkSpeed: 55
+      atkRange: 0.5
+    - hp: 46
+      atk: 560
+      atkSpeed: 56
+      atkRange: 0.5
+    - hp: 47
+      atk: 570
+      atkSpeed: 57
+      atkRange: 0.5
+    - hp: 48
+      atk: 580
+      atkSpeed: 58
+      atkRange: 0.5
+    - hp: 49
+      atk: 590
+      atkSpeed: 59
+      atkRange: 0.5
+    - hp: 50
+      atk: 600
+      atkSpeed: 60
+      atkRange: 0.5
   - pieceId: 1
     pieceName: "\uB098"
     rank: 2
     Type: 0
+    pieceStats:
+    - hp: 1
+      atk: 110
+      atkSpeed: 11
+      atkRange: 1
+    - hp: 2
+      atk: 120
+      atkSpeed: 12
+      atkRange: 1
+    - hp: 3
+      atk: 130
+      atkSpeed: 13
+      atkRange: 1
+    - hp: 4
+      atk: 140
+      atkSpeed: 14
+      atkRange: 0.8
+    - hp: 5
+      atk: 150
+      atkSpeed: 15
+      atkRange: 0.8
+    - hp: 6
+      atk: 160
+      atkSpeed: 16
+      atkRange: 0.8
+    - hp: 7
+      atk: 170
+      atkSpeed: 17
+      atkRange: 0.8
+    - hp: 8
+      atk: 180
+      atkSpeed: 18
+      atkRange: 0.8
+    - hp: 9
+      atk: 190
+      atkSpeed: 19
+      atkRange: 0.8
+    - hp: 10
+      atk: 200
+      atkSpeed: 20
+      atkRange: 0.8
+    - hp: 11
+      atk: 210
+      atkSpeed: 21
+      atkRange: 0.8
+    - hp: 12
+      atk: 220
+      atkSpeed: 22
+      atkRange: 0.8
+    - hp: 13
+      atk: 230
+      atkSpeed: 23
+      atkRange: 0.8
+    - hp: 14
+      atk: 240
+      atkSpeed: 24
+      atkRange: 0.8
+    - hp: 15
+      atk: 250
+      atkSpeed: 25
+      atkRange: 0.8
+    - hp: 16
+      atk: 260
+      atkSpeed: 26
+      atkRange: 0.8
+    - hp: 17
+      atk: 270
+      atkSpeed: 27
+      atkRange: 0.8
+    - hp: 18
+      atk: 280
+      atkSpeed: 28
+      atkRange: 0.8
+    - hp: 19
+      atk: 290
+      atkSpeed: 29
+      atkRange: 0.7
+    - hp: 20
+      atk: 300
+      atkSpeed: 30
+      atkRange: 0.7
+    - hp: 21
+      atk: 310
+      atkSpeed: 31
+      atkRange: 0.7
+    - hp: 22
+      atk: 320
+      atkSpeed: 32
+      atkRange: 0.7
+    - hp: 23
+      atk: 330
+      atkSpeed: 33
+      atkRange: 0.7
+    - hp: 24
+      atk: 340
+      atkSpeed: 34
+      atkRange: 0.7
+    - hp: 25
+      atk: 350
+      atkSpeed: 35
+      atkRange: 0.7
+    - hp: 26
+      atk: 360
+      atkSpeed: 36
+      atkRange: 0.7
+    - hp: 27
+      atk: 370
+      atkSpeed: 37
+      atkRange: 0.7
+    - hp: 28
+      atk: 380
+      atkSpeed: 38
+      atkRange: 0.7
+    - hp: 29
+      atk: 390
+      atkSpeed: 39
+      atkRange: 0.7
+    - hp: 30
+      atk: 400
+      atkSpeed: 40
+      atkRange: 0.7
+    - hp: 31
+      atk: 410
+      atkSpeed: 41
+      atkRange: 0.7
+    - hp: 32
+      atk: 420
+      atkSpeed: 42
+      atkRange: 0.7
+    - hp: 33
+      atk: 430
+      atkSpeed: 43
+      atkRange: 0.7
+    - hp: 34
+      atk: 440
+      atkSpeed: 44
+      atkRange: 0.7
+    - hp: 35
+      atk: 450
+      atkSpeed: 45
+      atkRange: 0.7
+    - hp: 36
+      atk: 460
+      atkSpeed: 46
+      atkRange: 0.7
+    - hp: 37
+      atk: 470
+      atkSpeed: 47
+      atkRange: 0.7
+    - hp: 38
+      atk: 480
+      atkSpeed: 48
+      atkRange: 0.7
+    - hp: 39
+      atk: 490
+      atkSpeed: 49
+      atkRange: 0.7
+    - hp: 40
+      atk: 500
+      atkSpeed: 50
+      atkRange: 0.5
+    - hp: 41
+      atk: 510
+      atkSpeed: 51
+      atkRange: 0.5
+    - hp: 42
+      atk: 520
+      atkSpeed: 52
+      atkRange: 0.5
+    - hp: 43
+      atk: 530
+      atkSpeed: 53
+      atkRange: 0.5
+    - hp: 44
+      atk: 540
+      atkSpeed: 54
+      atkRange: 0.5
+    - hp: 45
+      atk: 550
+      atkSpeed: 55
+      atkRange: 0.5
+    - hp: 46
+      atk: 560
+      atkSpeed: 56
+      atkRange: 0.5
+    - hp: 47
+      atk: 570
+      atkSpeed: 57
+      atkRange: 0.5
+    - hp: 48
+      atk: 580
+      atkSpeed: 58
+      atkRange: 0.5
+    - hp: 49
+      atk: 590
+      atkSpeed: 59
+      atkRange: 0.5
+    - hp: 50
+      atk: 600
+      atkSpeed: 60
+      atkRange: 0.5
 --- !u!4 &785036760
 Transform:
   m_ObjectHideFlags: 0

@@ -1,14 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
+public enum TileType
+{
+    None,
+    Walkable,
+    Sea,
+    Wall,
+}
+
 public class StageManager : MonoBehaviour
 {
+
     public static StageManager instance { get; private set; }
 
     public GameObject TestPrefab;
-
     // 하나의 칸마다의 사이즈를 지정
     [SerializeField]
     private Vector2 cellSize = new Vector2(10.0f, 10.0f);
@@ -18,6 +27,13 @@ public class StageManager : MonoBehaviour
     // 칸의 위치를 조정
     [SerializeField]
     private Vector3 cellOffset = Vector3.zero;
+
+    [SerializeField]
+    private Piece[][] Pieces;
+
+
+    [SerializeField]
+    private TileType[] types;
 
     // 가상의 평면 충돌체
     private Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
