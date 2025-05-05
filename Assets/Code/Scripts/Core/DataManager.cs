@@ -81,10 +81,10 @@ public class DataManager : MonoBehaviour
 
             stats.Add(new PieceStats
             {
-                hp = int.Parse(fields[0]),
-                atk = int.Parse(fields[1]),
-                atkSpeed = float.Parse(fields[2]),
-                atkRange = float.Parse(fields[3]),
+                hp = int.Parse(fields[1]),
+                atk = int.Parse(fields[2]),
+                atkSpeed = float.Parse(fields[3]),
+                atkRange = float.Parse(fields[4]),
             });
         }
 
@@ -126,6 +126,11 @@ public class DataManager : MonoBehaviour
         }
 
         return data.pieces[id];
+    }
+
+    public List<Piece> GetPieceList()
+    {
+        return data.pieces;
     }
 
     [ContextMenu("Save")]

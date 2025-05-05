@@ -21,20 +21,22 @@ public struct PieceStats
 public class Piece
 {
     [SerializeField]
+    private string pieceName = "";    // 이름
+    [SerializeField]
     private int pieceId = -1;            // id
-    //private string pieceName = "";    // 이름
     [SerializeField]
     private int level = 1;              // 레벨
     //private int rank  = 0;            // 랭크(돌파)
 
     /// <summary> 캐릭터의 스텟입니다 </summary>
-    private PieceStats stats;
+    public PieceStats stats { get; private set; }
 
     public Piece(int id)
     {
         pieceId = id;
         level = 1;
-        PieceData data = DataManager.instance.GetPieceData(id);
+        PieceData data = DataManager.instance.GetPieceData(pieceId);
+        pieceName = data.pieceName;
         stats = data.pieceStats[level - 1];
     }
 
@@ -42,11 +44,23 @@ public class Piece
     {
         pieceId = id;
         level = lv;
-        PieceData data = DataManager.instance.GetPieceData(id);
+        PieceData data = DataManager.instance.GetPieceData(pieceId);
+        pieceName = data.pieceName;
         stats = data.pieceStats[level - 1];
     }
 
+    public void StatsSetting()
+    {
+        PieceData data = DataManager.instance.GetPieceData(pieceId);
+        stats = data.pieceStats[level - 1];
+    }
+    public PieceStats GetStats()
+    {
+        StatsSetting();
+        return stats;
+    }
 
+    public string GetName() { return pieceName; }
     public int GetId() { return pieceId; }
     public void SetId(int id) { pieceId = id; }
 
