@@ -28,12 +28,9 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private Vector3 cellOffset = Vector3.zero;
 
-    [SerializeField]
-    private Piece[][] Pieces;
+    public PieceUnit[][] units;
 
-
-    [SerializeField]
-    private TileType[] types;
+    public TileType[][] types;
 
     // 가상의 평면 충돌체
     private Plane groundPlane = new Plane(Vector3.up, Vector3.zero);

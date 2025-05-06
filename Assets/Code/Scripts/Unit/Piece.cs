@@ -30,7 +30,6 @@ public class Piece
 
     /// <summary> 캐릭터의 스텟입니다 </summary>
     public PieceStats stats { get; private set; }
-
     public Piece(int id)
     {
         pieceId = id;

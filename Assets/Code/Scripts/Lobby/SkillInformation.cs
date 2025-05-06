@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
-public class SkillInformation : MonoBehaviour
+public class SkillInformation : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    // Start is called before the first frame update
-    void Start()
+    private int SkillId = -1;
+
+    public void OnPointerDown(PointerEventData eventData)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnPointerUp(PointerEventData eventData)
     {
-        
     }
+
+    public void SetId(int id)
+    {
+        SkillId = id;
+    }
+
 }

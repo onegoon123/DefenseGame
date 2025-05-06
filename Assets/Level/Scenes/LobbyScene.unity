@@ -8345,12 +8345,12 @@ MonoBehaviour:
     level: 10
     money: 1234
     pieces:
-    - pieceName: "\uAC00"
+    - pieceName: 
       pieceId: 0
-      level: 1
-    - pieceName: "\uB098"
-      pieceId: 1
-      level: 2
+      level: 0
+    - pieceName: 
+      pieceId: 0
+      level: 0
   pieceDatas:
   - pieceId: 0
     pieceName: "\uAC00"
