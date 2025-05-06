@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEngine.Rendering.DebugUI;
 
 public class StageCreator : MonoBehaviour
@@ -12,7 +13,9 @@ public class StageCreator : MonoBehaviour
     // 스테이지를 생성할 오브젝트들의 부모
     public Transform stageParent;
     // 생성할 스테이지의 데이터 CSV를 지정
-    public TextAsset csvFile;
+    public TextAsset stageCSVFile;
+    // 생성할 스테이지의 타일 데이터 CSV를 지정
+    public TextAsset tileCSVFile;
     // 숫자에 해당하는 오브젝트를 지정
     public List<GameObject> prefabList;
     // 숫자에 해당하는 오브젝트를 지정(체크무늬)
@@ -40,7 +43,7 @@ public class StageCreator : MonoBehaviour
         }
 
         // CSV 파일을 읽어 스테이지 생성
-        string[] lines = csvFile.text.Split("\n");
+        string[] lines = stageCSVFile.text.Split("\n");
 
         for (int z = 0 ; z < lines.Length ; z++)
         {
@@ -82,4 +85,34 @@ public class StageCreator : MonoBehaviour
         newObject.transform.position += new Vector3(x * cellSize.x, 0, z * cellSize.y) + new Vector3(x * cellGap.x, 0, z * cellGap.y) + cellOffset;
     }
 
+    public void Start()
+    {
+        CreateTile();
+    }
+
+    public void CreateTile()
+    {
+        StageManager stage = FindAnyObjectByType<StageManager>();
+
+        // CSV 파일을 읽어 타일 생성
+        string[] lines = tileCSVFile.text.Split("\n");
+        {
+            string[] fields = lines[0].Split(',');
+            stage.tiles = new TileType[lines.Length,fields.Length];
+        }
+
+        for (int i = 0 ; i < lines.Length ; i++)
+        {
+            if (string.IsNullOrWhiteSpace(lines[i]))
+                continue;
+
+            string[] fields = lines[i].Split(',');
+
+            for (int j = 0 ; j < fields.Length ; j++)
+            {
+                int value = int.Parse(fields[j]);
+                stage.tiles[i,j] = (TileType)value;
+            }
+        }
+    }
 }

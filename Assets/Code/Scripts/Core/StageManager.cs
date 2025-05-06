@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
+// 타일 타입
 public enum TileType
 {
     None,
@@ -28,9 +29,9 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private Vector3 cellOffset = Vector3.zero;
 
-    public PieceUnit[][] units;
+    public PieceUnit[,] units;
 
-    public TileType[][] types;
+    public TileType[,] tiles;
 
     // 가상의 평면 충돌체
     private Plane groundPlane = new Plane(Vector3.up, Vector3.zero);

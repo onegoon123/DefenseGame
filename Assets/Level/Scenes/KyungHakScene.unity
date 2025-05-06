@@ -2099,7 +2099,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageParent: {fileID: 576325173}
-  csvFile: {fileID: 4900000, guid: b8180ebebe016c14496f5b7438aca6cb, type: 3}
+  stageCSVFile: {fileID: 4900000, guid: b8180ebebe016c14496f5b7438aca6cb, type: 3}
+  tileCSVFile: {fileID: 4900000, guid: d33e08b1307121545a7b45c05605bc5e, type: 3}
   prefabList:
   - {fileID: 4551230641668630736, guid: 3264b905a7879c84cbadfac55300a8cb, type: 3}
   - {fileID: 8342078219822298413, guid: c0e45d01cdeae124dae7fb18c96620e9, type: 3}
