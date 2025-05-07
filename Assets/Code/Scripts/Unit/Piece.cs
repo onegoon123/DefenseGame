@@ -34,6 +34,7 @@ public class Piece
     {
         pieceId = id;
         level = 1;
+        Debug.Log(id);
         PieceData data = DataManager.instance.GetPieceData(pieceId);
         pieceName = data.pieceName;
         stats = data.pieceStats[level - 1];
@@ -43,6 +44,7 @@ public class Piece
     {
         pieceId = id;
         level = lv;
+        Debug.Log(id);
         PieceData data = DataManager.instance.GetPieceData(pieceId);
         pieceName = data.pieceName;
         stats = data.pieceStats[level - 1];
@@ -57,6 +59,13 @@ public class Piece
     {
         StatsSetting();
         return stats;
+    }
+
+    public void LevelUp(int lv = 1)
+    {
+        level += lv;
+        PieceData data = DataManager.instance.GetPieceData(pieceId);
+        stats = data.pieceStats[level - 1];
     }
 
     public string GetName() { return pieceName; }

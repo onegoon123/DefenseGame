@@ -7,6 +7,7 @@ using UnityEngine;
 [System.Serializable]
 public class SaveData
 {
+
     public int level = 1;
     public int money = 0;
     [SerializeField]
@@ -27,7 +28,10 @@ public class DataManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
+
+        LoadGame();
     }
 
     [SerializeField]
@@ -131,6 +135,16 @@ public class DataManager : MonoBehaviour
     public List<Piece> GetPieceList()
     {
         return data.pieces;
+    }
+
+    public int GetMoney()
+    {
+        return data.money;
+    }
+
+    public void SetMoney(int money)
+    {
+        data.money = money;
     }
 
     [ContextMenu("Save")]
