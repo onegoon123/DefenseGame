@@ -11,21 +11,21 @@ public class PiecePanel : MonoBehaviour
     private int LevelUpMoney;
 
     public TMP_Text nameText;
-    public TMP_Text LVText;
-    public TMP_Text HPText;
-    public TMP_Text ATKText;
-    public TMP_Text ATKSpeedText;
+    public TMP_Text lvText;
+    public TMP_Text hpText;
+    public TMP_Text atkText;
+    public TMP_Text atkSpeedText;
 
-    public Button LevelUpButton;
-    public TMP_Text CurrentMoneyText;
-    public TMP_Text LevelUpMoneyText;
+    public Button levelUpButton;
+    public TMP_Text currentMoneyText;
+    public TMP_Text levelUpMoneyText;
 
-    public SkillInformation[] skills = new SkillInformation[4];
-
+    public SkillInformation skillInfo;
     public void SetPieceId(int id)
     {
         piece = DataManager.instance.GetPiece(id);
         SetPieceInformation();
+        skillInfo.SetPieceId(id);
     }
 
     public void LevelUp()
@@ -39,17 +39,17 @@ public class PiecePanel : MonoBehaviour
     public void SetPieceInformation()
     {
         nameText.text = piece.GetName();
-        LVText.text = piece.GetLevel().ToString();
+        lvText.text = piece.GetLevel().ToString();
 
         var stats = piece.GetStats();
-        HPText.text = stats.hp.ToString();
-        ATKText.text = stats.atk.ToString();
-        ATKSpeedText.text = stats.atkSpeed.ToString();
+        hpText.text = stats.hp.ToString();
+        atkText.text = stats.atk.ToString();
+        atkSpeedText.text = stats.atkSpeed.ToString();
 
-        CurrentMoneyText.text = DataManager.instance.GetMoney().ToString();
+        currentMoneyText.text = DataManager.instance.GetMoney().ToString();
         LevelUpMoney = piece.GetLevel() * 100;
-        LevelUpMoneyText.text = LevelUpMoney.ToString();
+        levelUpMoneyText.text = LevelUpMoney.ToString();
 
-        LevelUpButton.interactable = LevelUpMoney <= DataManager.instance.GetMoney();
+        levelUpButton.interactable = LevelUpMoney <= DataManager.instance.GetMoney();
     }
 }

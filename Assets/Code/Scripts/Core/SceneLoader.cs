@@ -40,7 +40,7 @@ public class SceneLoader : MonoBehaviour
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-        fadeAnim.PlayQueued("FadeOut");
+        fadeAnim.PlayQueued("Alpha0to1");
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.allowSceneActivation = false;
@@ -54,7 +54,7 @@ public class SceneLoader : MonoBehaviour
             {
                 if (fadeAnim.isPlaying)
                 {
-                    AnimationState state = fadeAnim["FadeOut"];
+                    AnimationState state = fadeAnim["Alpha0to1"];
                     float remainingTime = state.length - state.time;
                     yield return new WaitForSeconds(remainingTime);
                 }
@@ -63,7 +63,7 @@ public class SceneLoader : MonoBehaviour
             yield return null;
         }
 
-        fadeAnim.PlayQueued("FadeIn");
+        fadeAnim.PlayQueued("Alpha1to0");
         yield return null;
     }
 }

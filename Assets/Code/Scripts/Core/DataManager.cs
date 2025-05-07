@@ -7,7 +7,6 @@ using UnityEngine;
 [System.Serializable]
 public class SaveData
 {
-
     public int level = 1;
     public int money = 0;
     [SerializeField]
@@ -40,60 +39,9 @@ public class DataManager : MonoBehaviour
     [SerializeField]
     private List<PieceData> pieceDatas = new List<PieceData>();     // 고정되어 있는 Piece 데이터
 
-    [ContextMenu("Load Piece Data")]
-    public void LoadPieceData()
-    {
-        pieceDatas.Clear();
+    [SerializeField]
+    private List<SkillData> skillDatas = new List<SkillData>();     // Skill 데이터
 
-        List<PieceData> list = new List<PieceData>();
-        TextAsset csvFile = Resources.Load<TextAsset>("PieceData");
-        string[] lines = csvFile.text.Split("\n");
-
-        for (int i = 1; i < lines.Length; i++)
-        {
-            if (string.IsNullOrWhiteSpace(lines[i]))
-                continue;
-
-            string[] fields = lines[i].Split(',');
-
-            PieceData piece = new PieceData
-            {
-                pieceId = int.Parse(fields[0]),
-                pieceName = fields[1],
-                rank = int.Parse(fields[2]),
-                Type = int.Parse(fields[3])
-            };
-            piece.pieceStats = GetPieceStatsData(fields[4]);
-
-            pieceDatas.Add(piece);
-        }
-    }
-
-    private List<PieceStats> GetPieceStatsData(string file)
-    {
-        List<PieceStats> stats = new List<PieceStats>(50);
-        TextAsset csvFile = Resources.Load<TextAsset>(file.Trim());
-
-        string[] lines = csvFile.text.Split("\n");
-
-        for(int i = 1; i < lines.Length; i++)
-        {
-            if (string.IsNullOrWhiteSpace(lines[i]))
-                continue;
-
-            string[] fields = lines[i].Split(',');
-
-            stats.Add(new PieceStats
-            {
-                hp = int.Parse(fields[1]),
-                atk = int.Parse(fields[2]),
-                atkSpeed = float.Parse(fields[3]),
-                atkRange = float.Parse(fields[4]),
-            });
-        }
-
-        return stats;
-    }
 
     public PieceData GetPieceData(int id)
     {
@@ -103,6 +51,16 @@ public class DataManager : MonoBehaviour
             return null;
         }
         return pieceDatas[id];
+    }
+
+    public SkillData GetSkillData(int id)
+    {
+        if (skillDatas.Count <= id)
+        {
+            Debug.LogError("skillDatas 사이즈가 작습니다.");
+            return null;
+        }
+        return skillDatas[id];
     }
 
     public void SetPiece(Piece piece)
@@ -147,6 +105,93 @@ public class DataManager : MonoBehaviour
         data.money = money;
     }
 
+    [ContextMenu("Load Piece Data")]
+    public void LoadPieceData()
+    {
+        pieceDatas.Clear();
+
+        List<PieceData> list = new List<PieceData>();
+        TextAsset csvFile = Resources.Load<TextAsset>("Piece/PieceData");
+        string[] lines = csvFile.text.Split("\n");
+
+        for (int i = 1; i < lines.Length; i++)
+        {
+            if (string.IsNullOrWhiteSpace(lines[i]))
+                continue;
+
+            string[] fields = lines[i].Split(',');
+
+            PieceData piece = new PieceData
+            {
+                pieceId = int.Parse(fields[0]),
+                pieceName = fields[1],
+                pieceClass = int.Parse(fields[2]),
+                skill_0 = int.Parse(fields[3]),
+                skill_1 = int.Parse(fields[4]),
+                skill_2 = int.Parse(fields[5]),
+                skill_3 = int.Parse(fields[6])
+            };
+            piece.pieceStats = GetPieceStatsData(fields[7]);
+
+            pieceDatas.Add(piece);
+        }
+    }
+
+    private List<PieceStats> GetPieceStatsData(string file)
+    {
+        List<PieceStats> stats = new List<PieceStats>(50);
+        TextAsset csvFile = Resources.Load<TextAsset>(file.Trim());
+
+        string[] lines = csvFile.text.Split("\n");
+
+        for (int i = 1; i < lines.Length; i++)
+        {
+            if (string.IsNullOrWhiteSpace(lines[i]))
+                continue;
+
+            string[] fields = lines[i].Split(',');
+
+            stats.Add(new PieceStats
+            {
+                hp = int.Parse(fields[1]),
+                atk = int.Parse(fields[2]),
+                atkSpeed = float.Parse(fields[3]),
+            });
+        }
+
+        return stats;
+    }
+
+    [ContextMenu("Load Skill Data")]
+    public void LoadSkillData()
+    {
+        skillDatas.Clear();
+
+        List<SkillData> list = new List<SkillData>();
+        TextAsset csvFile = Resources.Load<TextAsset>("Skill/SkillData");
+        string[] lines = csvFile.text.Split("\n");
+
+        for (int i = 1; i < lines.Length; i++)
+        {
+            if (string.IsNullOrWhiteSpace(lines[i]))
+                continue;
+
+            string[] fields = lines[i].Split(',');
+
+            SkillData skill = new SkillData
+            {
+                skillId = int.Parse(fields[0]),
+                skillName = fields[1],
+                range = int.Parse(fields[2]),
+                information = fields[3],
+                icon = fields[4]
+            };
+
+            skillDatas.Add(skill);
+        }
+    }
+
+
     [ContextMenu("Save")]
     public void SaveGame()
     {
@@ -168,5 +213,6 @@ public class DataManager : MonoBehaviour
             data = new SaveData();
         }
     }
+
 
 }
