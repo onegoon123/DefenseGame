@@ -1,5 +1,9 @@
 id,이름,사정거리,설명,스킬 아이콘
-0,강타,1,스킬설명 : 강타,icon01
-1,파이어볼,2,스킬설명 : 파이어볼,icon02
-3,스킬3,3,설명,Icon03
-4,스킬4,4,설명,Icon04
+0,강타,1,스킬설명 : 강타,Skill/Icon/Skill_00
+1,파이어볼,2,스킬설명 : 파이어볼,Skill/Icon/Skill_01
+2,스킬2,3,설명,Skill/Icon/Skill_02
+3,스킬3,4,설명,Skill/Icon/Skill_03
+4,스킬4,4,설명,Skill/Icon/Skill_04
+5,스킬5,4,설명,Skill/Icon/Skill_05
+6,스킬6,4,설명,Skill/Icon/Skill_06
+7,스킬7,4,설명,Skill/Icon/Skill_07
