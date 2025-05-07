@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEditor.Compilation;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 [System.Serializable]
@@ -9,8 +11,25 @@ public class SaveData
 {
     public int level = 1;
     public int money = 0;
+
     [SerializeField]
     public List<Piece> pieces = new List<Piece>(20);
+
+    [SerializeField]
+    public List<int> clearStageList = new List<int>(4);
+
+    public void ClearData()
+    {
+        level = 1;
+        money = 0;
+        pieces.Clear();
+        clearStageList.Clear();
+        clearStageList.Capacity = 4;
+        for(int i = 0; i < clearStageList.Count; i++)
+        {
+            clearStageList[i] = 0;
+        }
+    }
 }
 
 public class DataManager : MonoBehaviour
@@ -93,6 +112,15 @@ public class DataManager : MonoBehaviour
     public List<Piece> GetPieceList()
     {
         return data.pieces;
+    }
+
+    public int GetClearStage(int world)
+    {
+        return data.clearStageList[world];
+    }
+    public void SetClearStage(int world, int stage)
+    {
+        data.clearStageList[world] = stage;
     }
 
     public int GetMoney()
@@ -210,7 +238,9 @@ public class DataManager : MonoBehaviour
         }
         else
         {
+            // 초기 세이브데이터 세팅
             data = new SaveData();
+            data.ClearData();
         }
     }
 
