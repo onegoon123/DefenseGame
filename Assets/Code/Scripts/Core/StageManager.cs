@@ -16,6 +16,17 @@ public enum TileType
 public class StageManager : MonoBehaviour
 {
 
+    public List<int2> GetBlockedTiles()
+    {
+        // 막혀있는 타일 좌표 삽입해야함
+        return new List<int2>
+        {
+            new int2(3, 2),
+            new int2(4, 2),
+            new int2(5, 2)
+        };
+    }
+
     public static StageManager instance { get; private set; }
 
     public GameObject TestPrefab;
