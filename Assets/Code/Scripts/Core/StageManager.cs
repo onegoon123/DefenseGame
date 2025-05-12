@@ -69,7 +69,7 @@ public class StageManager : MonoBehaviour
             {
                 Vector3 hitPoint = ray.GetPoint(enter);
                 int2 gridPos = WorldToGridPosition(hitPoint);
-
+                Debug.Log(gridPos);
                 // 중복 체크
                 if (occupiedTiles.Contains(gridPos))
                 {

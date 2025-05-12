@@ -71,6 +71,7 @@ public class LobbyManager : MonoBehaviour
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
         transform.Find("Shop Panel")?.gameObject.SetActive(false);
+        transform.Find("Party Panel")?.gameObject.SetActive(false);
     }
 
     [ContextMenu("Land Panel")]
@@ -82,6 +83,7 @@ public class LobbyManager : MonoBehaviour
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
         transform.Find("Shop Panel")?.gameObject.SetActive(false);
+        transform.Find("Party Panel")?.gameObject.SetActive(false);
     }
 
     [ContextMenu("Stage1 Panel")]
@@ -93,6 +95,7 @@ public class LobbyManager : MonoBehaviour
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
         transform.Find("Shop Panel")?.gameObject.SetActive(false);
+        transform.Find("Party Panel")?.gameObject.SetActive(false);
     }
 
     [ContextMenu("Character Panel")]
@@ -104,6 +107,7 @@ public class LobbyManager : MonoBehaviour
         transform.Find("Characters Panel")?.gameObject.SetActive(true);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
         transform.Find("Shop Panel")?.gameObject.SetActive(false);
+        transform.Find("Party Panel")?.gameObject.SetActive(false);
     }
 
     [ContextMenu("Piece Panel")]
@@ -115,16 +119,18 @@ public class LobbyManager : MonoBehaviour
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(true);
         transform.Find("Shop Panel")?.gameObject.SetActive(false);
+        transform.Find("Party Panel")?.gameObject.SetActive(false);
     }
 
-    [ContextMenu("Shop Panel")]
-    private void ShopPanel()
+    [ContextMenu("Party Panel")]
+    private void UnitPanel()
     {
         transform.Find("Lobby Panel")?.gameObject.SetActive(false);
         transform.Find("Land Panel")?.gameObject.SetActive(false);
         transform.Find("Stage1 Panel")?.gameObject.SetActive(false);
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
-        transform.Find("Shop Panel")?.gameObject.SetActive(true);
+        transform.Find("Shop Panel")?.gameObject.SetActive(false);
+        transform.Find("Party Panel")?.gameObject.SetActive(true);
     }
 }

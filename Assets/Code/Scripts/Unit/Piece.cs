@@ -4,6 +4,21 @@ using System;
 using UnityEditor.SceneTemplate;
 using UnityEngine;
 
+public enum PieceMainClass
+{
+    King,
+    Queen,
+    Rook,
+    Bishop,
+    Knight,
+    Pawn,
+}
+
+public enum PieceSubClass
+{
+    Amarzon,
+}
+
 [Serializable]
 public struct PieceStats
 {
