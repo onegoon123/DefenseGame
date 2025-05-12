@@ -8,6 +8,8 @@ public abstract class PieceUnit : MonoBehaviour
 
     protected SpriteRenderer sprite;
 
+    protected List<Skill> skills;
+
     /// <summary> 이 유닛이 플레이어면 true입니다 </summary>
     public bool isPlayer { get; private set; }
 
@@ -20,6 +22,12 @@ public abstract class PieceUnit : MonoBehaviour
 
     protected virtual void Update()
     {
-        
+        foreach (Skill skill in skills)
+        {
+            if (skill.CheckCondition(this))
+            {
+                skill.Activate(this);
+            }
+        }
     }
 }

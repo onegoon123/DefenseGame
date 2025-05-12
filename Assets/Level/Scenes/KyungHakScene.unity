@@ -1959,8 +1959,9 @@ GameObject:
   - component: {fileID: 576325173}
   - component: {fileID: 576325174}
   - component: {fileID: 576325175}
+  - component: {fileID: 576325176}
   m_Layer: 0
-  m_Name: Stage Creator
+  m_Name: Stage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2125,6 +2126,30 @@ MonoBehaviour:
   cellSize: {x: 10, y: 10}
   cellGap: {x: 0, y: 0}
   cellOffset: {x: 5, y: 0, z: 5}
+--- !u!114 &576325176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576325171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f3d4be467a1d0f4388f08bbe10e5c00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveDataFile: {fileID: 4900000, guid: 3eb05efbb7bc3cb43916aa3d70418462, type: 3}
+  waveWaitTime: 10
+  SpawnPoint:
+  - x: 1
+    y: 2
+  - x: 3
+    y: 4
+  - x: 5
+    y: 6
+  - x: 7
+    y: 3
+  waves: []
 --- !u!1 &619654311
 GameObject:
   m_ObjectHideFlags: 0
