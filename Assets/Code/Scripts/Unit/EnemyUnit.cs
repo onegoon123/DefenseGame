@@ -2,7 +2,7 @@
 using UnityEngine;
 using Unity.Mathematics;
 
-public class EnemyUnit : MonoBehaviour
+public class EnemyUnit : PieceUnit
 {
     public float moveSpeed = 2f; // 이동 속도
     private List<int2> path = new List<int2>(); // 경로 저장
@@ -10,8 +10,9 @@ public class EnemyUnit : MonoBehaviour
 
     private Transform kingTarget; // 추적할 대상 (Piece_king)
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         // "King" 태그가 붙은 오브젝트 찾기
         kingTarget = GameObject.FindWithTag("Piece_king")?.transform;
 
@@ -19,8 +20,9 @@ public class EnemyUnit : MonoBehaviour
         InvokeRepeating(nameof(UpdatePath), 0f, 1f);
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         FollowPath(); // 현재 경로 따라 이동
     }
 
