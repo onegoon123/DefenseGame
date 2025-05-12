@@ -2,22 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting;
+using UnityEditor.Build;
 using UnityEditor.Compilation;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
+
+/// <summary>
+/// 게임에서 저장될 모든 데이터가 들어있는 클래스입니다
+/// </summary>
 [System.Serializable]
 public class SaveData
 {
-    public string playerName = "";
-    public int level = 1;
-    public int money = 0;
+    public string playerName = "";          // 플레이어 닉네임
+    public int level = 1;                   // 플레이어 레벨
+    public int money = 0;                   // 보유 돈
 
     [SerializeField]
-    public List<Piece> pieces = new List<Piece>(20);
+    public List<Piece> pieces = new List<Piece>(20);    // 보유 캐릭터들 데이터
 
     [SerializeField]
-    public List<int> clearStageList = new List<int>(4);
+    public List<int> clearStageList = new List<int>(4); // 스테이지 클리어 진도
 
     public void ClearData()
     {
@@ -33,6 +38,9 @@ public class SaveData
     }
 }
 
+/// <summary>
+/// 게임에서 사용될 데이터들을 관리하는 클래스입니다
+/// </summary>
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance { get; private set; }
@@ -50,11 +58,12 @@ public class DataManager : MonoBehaviour
             return;
         }
 
+        // 게임 시작시 데이터 로드
         LoadGame();
     }
 
     [SerializeField]
-    private SaveData data = new SaveData();
+    private SaveData data = new SaveData();                         // 세이브 데이터
 
     [SerializeField]
     private List<PieceData> pieceDatas = new List<PieceData>();     // 고정되어 있는 Piece 데이터
@@ -63,6 +72,9 @@ public class DataManager : MonoBehaviour
     private List<SkillData> skillDatas = new List<SkillData>();     // Skill 데이터
 
 
+    /// <summary>
+    /// id로 캐릭터를 검색해 PieceData를 받아옵니다
+    /// </summary>
     public PieceData GetPieceData(int id)
     {
         if (pieceDatas.Count <= id)
@@ -73,6 +85,35 @@ public class DataManager : MonoBehaviour
         return pieceDatas[id];
     }
 
+    /// <summary>
+    /// 해당 id의 메인 클래스를 받아옵니다
+    /// </summary>
+    public PieceMainClass GetPieceClass(int id)
+    {
+        if (pieceDatas.Count <= id)
+        {
+            Debug.LogError("pieceDatas 사이즈가 작습니다.");
+            return PieceMainClass.None;
+        }
+        return pieceDatas[id].pieceClass;
+    }
+
+    /// <summary>
+    /// 해당 id의 서브 클래스(진화 후)를 받아옵니다
+    /// </summary>
+    public PieceSubClass GetPieceSubClass(int id)
+    {
+        if (pieceDatas.Count <= id)
+        {
+            Debug.LogError("pieceDatas 사이즈가 작습니다.");
+            return PieceSubClass.None;
+        }
+        return pieceDatas[id].pieceSubClass;
+    }
+
+    /// <summary>
+    /// 해당 id의 스킬 데이터를 받아옵니다
+    /// </summary>
     public SkillData GetSkillData(int id)
     {
         if (skillDatas.Count <= id)
@@ -83,6 +124,22 @@ public class DataManager : MonoBehaviour
         return skillDatas[id];
     }
 
+    /// <summary>
+    /// 새로운 Piece 캐릭터를 획득합니다.
+    /// </summary>
+    public void AddPiece(int id)
+    {
+        if (ContainsPiece(id))
+        {
+            return;
+        }
+        data.pieces.Add(new Piece(id));
+    }
+
+    /// <summary>
+    /// Piece 캐릭터에 대한 정보를 저장합니다
+    /// 레벨업을 하면 실행해주세요
+    /// </summary>
     public void SetPiece(Piece piece)
     {
         if (data.pieces.Count <= piece.GetId())
@@ -94,20 +151,29 @@ public class DataManager : MonoBehaviour
         data.pieces[piece.GetId()] = piece;
     }
 
-    public Piece GetPiece(int id)
+    public bool ContainsPiece(int id)
     {
-        if (data.pieces.Count <= id)
+        foreach (Piece piece in data.pieces)
         {
-            Debug.LogError("Pieces 사이즈가 작습니다.");
-            return null;
-        }
-        if (data.pieces[id] == null)
-        {
-            Debug.LogError("존재하지 않는 Piece ID 입니다");
-            return null;
+            if (piece.GetId() == id)
+                return true;
         }
 
-        return data.pieces[id];
+        return false;
+    }
+
+    /// <summary>
+    /// 해당 id를 가진 Piece를 받아옵니다.
+    /// </summary>
+    public Piece GetPiece(int id)
+    {
+        foreach (Piece piece in data.pieces)
+        {
+            if (piece.GetId() == id)
+                return piece;
+        }
+
+        return null;
     }
 
     public List<Piece> GetPieceList()
@@ -134,6 +200,9 @@ public class DataManager : MonoBehaviour
         data.money = money;
     }
 
+    /// <summary>
+    /// PieceData CSV파일을 읽어 데이터를 세팅합니다
+    /// </summary>
     [ContextMenu("Load Piece Data")]
     public void LoadPieceData()
     {
@@ -154,18 +223,22 @@ public class DataManager : MonoBehaviour
             {
                 pieceId = int.Parse(fields[0]),
                 pieceName = fields[1],
-                pieceClass = int.Parse(fields[2]),
-                skill_0 = int.Parse(fields[3]),
-                skill_1 = int.Parse(fields[4]),
-                skill_2 = int.Parse(fields[5]),
-                skill_3 = int.Parse(fields[6])
+                pieceClass = (PieceMainClass)int.Parse(fields[2]),
+                pieceSubClass = (PieceSubClass)int.Parse(fields[3]),
+                skill_autoAttack = int.Parse(fields[4]),
+                skill_passive = int.Parse(fields[5]),
+                skill_active = int.Parse(fields[6]),
+                icon = Resources.Load<Sprite>(fields[7].Trim())
             };
-            piece.pieceStats = GetPieceStatsData(fields[7]);
+            piece.pieceStats = GetPieceStatsData(fields[8]);
 
             pieceDatas.Add(piece);
         }
     }
 
+    /// <summary>
+    /// Piece의 레벨별 스텟 CSV파일을 읽어 세팅합니다
+    /// </summary>
     private List<PieceStats> GetPieceStatsData(string file)
     {
         List<PieceStats> stats = new List<PieceStats>(50);
@@ -221,6 +294,9 @@ public class DataManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 게임 데이터를 저장합니다.
+    /// </summary>
     [ContextMenu("Save")]
     public void SaveGame()
     {
@@ -228,6 +304,9 @@ public class DataManager : MonoBehaviour
         File.WriteAllText(Application.persistentDataPath + "/save.json", json);
     }
 
+    /// <summary>
+    /// 게임 데이터를 불러옵니다.
+    /// </summary>
     [ContextMenu("Load")]
     public void LoadGame()
     {
@@ -245,5 +324,37 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    // 디버그용
+#if UNITY_EDITOR
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            AddPiece(0);
+            AddPiece(1);
+            AddPiece(2);
+            AddPiece(3);
+            AddPiece(4);
+            AddPiece(5);
+            AddPiece(6);
+            AddPiece(7);
+            AddPiece(8);
+            AddPiece(9);
+            AddPiece(10);
+            AddPiece(11);
+        }
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha2))
+        {
 
+        }
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha3))
+        {
+
+        }
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha4))
+        {
+
+        }
+    }
+#endif
 }

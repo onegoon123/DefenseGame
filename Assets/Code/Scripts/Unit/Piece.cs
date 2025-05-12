@@ -6,6 +6,7 @@ using UnityEngine;
 
 public enum PieceMainClass
 {
+    None,
     King,
     Queen,
     Rook,
@@ -16,7 +17,9 @@ public enum PieceMainClass
 
 public enum PieceSubClass
 {
+    None,
     Amarzon,
+    B,
 }
 
 [Serializable]
@@ -49,8 +52,7 @@ public class Piece
     {
         pieceId = id;
         level = 1;
-        Debug.Log(id);
-        PieceData data = DataManager.instance.GetPieceData(pieceId);
+        PieceData data = GetPieceData();
         pieceName = data.pieceName;
         stats = data.pieceStats[level - 1];
     }
@@ -59,16 +61,14 @@ public class Piece
     {
         pieceId = id;
         level = lv;
-        Debug.Log(id);
-        PieceData data = DataManager.instance.GetPieceData(pieceId);
+        PieceData data = GetPieceData();
         pieceName = data.pieceName;
         stats = data.pieceStats[level - 1];
     }
 
     public void StatsSetting()
     {
-        PieceData data = DataManager.instance.GetPieceData(pieceId);
-        stats = data.pieceStats[level - 1];
+        stats = GetPieceData().pieceStats[level - 1];
     }
     public PieceStats GetStats()
     {
@@ -79,8 +79,7 @@ public class Piece
     public void LevelUp(int lv = 1)
     {
         level += lv;
-        PieceData data = DataManager.instance.GetPieceData(pieceId);
-        stats = data.pieceStats[level - 1];
+        stats = GetPieceData().pieceStats[level - 1];
     }
 
     public string GetName() { return pieceName; }
@@ -89,4 +88,9 @@ public class Piece
 
     public void SetLevel(int lv) { level = lv; }
     public int GetLevel() { return level; }
+
+    public PieceData GetPieceData()
+    {
+        return DataManager.instance.GetPieceData(pieceId);
+    }
 }

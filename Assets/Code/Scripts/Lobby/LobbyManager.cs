@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// �κ�ȭ�鿡�� UI���� ȭ�� ��ȯ�� �ϱ����� Ŭ�����Դϴ�.
+/// 로비씬을 전반적으로 관리하는 클래스입니다
 /// </summary>
 public class LobbyManager : MonoBehaviour
 {

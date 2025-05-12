@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterList : MonoBehaviour
 {
-    void Start()
+    private void OnEnable()
     {
-        var data = DataManager.instance.GetPieceList();
         for (int i = 0 ; i < transform.childCount ; i++)
         {
-            transform.GetChild(i).gameObject.SetActive(i < data.Count && data[i] != null);
+            transform.GetChild(i).gameObject.SetActive(DataManager.instance.ContainsPiece(i));
+            Image image = transform.GetChild(i).GetChild(0).GetComponent<Image>();
+            image.sprite = DataManager.instance.GetPieceData(i).icon;
         }
     }
-
 }

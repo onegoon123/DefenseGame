@@ -35,10 +35,9 @@ public class SkillInformation : MonoBehaviour
     {
         PieceData pieceData = DataManager.instance.GetPieceData(id);
 
-        SetSkillId(pieceData.skill_0, 0);
-        SetSkillId(pieceData.skill_1, 1);
-        SetSkillId(pieceData.skill_2, 2);
-        SetSkillId(pieceData.skill_3, 3);
+        SetSkillId(pieceData.skill_autoAttack, 0);
+        SetSkillId(pieceData.skill_passive, 1);
+        SetSkillId(pieceData.skill_active, 2);
     }
 
     private void SetSkillId(int id, int index)
