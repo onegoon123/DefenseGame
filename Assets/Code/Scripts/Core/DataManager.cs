@@ -31,10 +31,10 @@ public class SaveData
         pieces.Clear();
         clearStageList.Clear();
         clearStageList.Capacity = 4;
-        for(int i = 0; i < clearStageList.Count; i++)
-        {
-            clearStageList[i] = 0;
-        }
+        clearStageList[0] = 0;
+        clearStageList[1] = -1;
+        clearStageList[2] = -1;
+        clearStageList[3] = -1;
     }
 }
 
@@ -181,13 +181,13 @@ public class DataManager : MonoBehaviour
         return data.pieces;
     }
 
-    public int GetClearStage(int world)
+    public int GetClearStage(int land)
     {
-        return data.clearStageList[world];
+        return data.clearStageList[land];
     }
-    public void SetClearStage(int world, int stage)
+    public void SetClearStage(int land, int stage)
     {
-        data.clearStageList[world] = stage;
+        data.clearStageList[land] = stage;
     }
 
     public int GetMoney()

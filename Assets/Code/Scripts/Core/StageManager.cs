@@ -29,6 +29,9 @@ public class StageManager : MonoBehaviour
 
     public static StageManager instance { get; private set; }
 
+    public int landNum;
+    public int stageNum;
+
     public GameObject TestPrefab;
     // 하나의 칸마다의 사이즈를 지정
     [SerializeField]
@@ -99,5 +102,15 @@ public class StageManager : MonoBehaviour
         Vector3 worldPos = new Vector3(gridPos.x * cellSize.x, 0, gridPos.y * cellSize.y)
                          + new Vector3(gridPos.x * cellGap.x, 0, gridPos.y * cellGap.y);
         return worldPos;
+    }
+
+    public void ClearStage()
+    {
+        if (DataManager.instance.GetClearStage(landNum) < stageNum)
+        {
+            DataManager.instance.SetClearStage(landNum, stageNum);
+        }
+
+        SceneLoader.instance.LoadScene("LobbyScene");
     }
 }

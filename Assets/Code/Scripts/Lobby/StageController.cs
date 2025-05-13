@@ -5,12 +5,17 @@ using UnityEngine.UI;
 
 public class StageController : MonoBehaviour
 {
-    public int worldNum = 0;
     public Transform stages;
+    public Image background;
+    public List<Sprite> backgroundSprites;
 
-    public void SetStage()
+    public void SetLand(int land)
     {
-        int stage = DataManager.instance.GetClearStage(worldNum);
+        FindFirstObjectByType<LobbyManager>().SetLand(land);
+
+        background.sprite = backgroundSprites[land];
+
+        int stage = DataManager.instance.GetClearStage(land);
         if (stages.childCount <= stage)
         {
             Debug.Log("클리어 스테이지 기록에 오류가 있습니다.");
@@ -18,12 +23,12 @@ public class StageController : MonoBehaviour
         }
 
         int i;
-        for (i = 0; i < stage; i++)
+        for (i = 0; i <= stage; i++)
         {
             stages.GetChild(i).GetComponent<Button>().interactable = true;
         }
 
-        for (; i < stages.childCount; i++ )
+        for (i = stage+1; i < stages.childCount; i++ )
         {
             stages.GetChild(i).GetComponent<Button>().interactable = false;
         }

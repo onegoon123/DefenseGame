@@ -41,6 +41,8 @@ public class SceneLoader : MonoBehaviour
     private IEnumerator LoadSceneAsync(string sceneName)
     {
         fadeAnim.PlayQueued("Alpha0to1");
+        progressBar.value = 0;
+        yield return new WaitForSeconds(.25f);
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.allowSceneActivation = false;

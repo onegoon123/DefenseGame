@@ -7,9 +7,12 @@ using UnityEngine;
 /// </summary>
 public class LobbyManager : MonoBehaviour
 {
-
-    private GameObject currentPanel;
+    
     public PiecePanel piecePanel;
+    private GameObject currentPanel;
+
+    private int selectLand;
+    private int selectStage;
 
     private void Start()
     {
@@ -67,7 +70,7 @@ public class LobbyManager : MonoBehaviour
     {
         transform.Find("Lobby Panel")?.gameObject.SetActive(true);
         transform.Find("Land Panel")?.gameObject.SetActive(false);
-        transform.Find("Stage1 Panel")?.gameObject.SetActive(false);
+        transform.Find("Stage Panel")?.gameObject.SetActive(false);
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
         transform.Find("Shop Panel")?.gameObject.SetActive(false);
@@ -79,19 +82,19 @@ public class LobbyManager : MonoBehaviour
     {
         transform.Find("Lobby Panel")?.gameObject.SetActive(false);
         transform.Find("Land Panel")?.gameObject.SetActive(true);
-        transform.Find("Stage1 Panel")?.gameObject.SetActive(false);
+        transform.Find("Stage Panel")?.gameObject.SetActive(false);
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
         transform.Find("Shop Panel")?.gameObject.SetActive(false);
         transform.Find("Party Panel")?.gameObject.SetActive(false);
     }
 
-    [ContextMenu("Stage1 Panel")]
+    [ContextMenu("Stage Panel")]
     private void Stage1Panel()
     {
         transform.Find("Lobby Panel")?.gameObject.SetActive(false);
         transform.Find("Land Panel")?.gameObject.SetActive(false);
-        transform.Find("Stage1 Panel")?.gameObject.SetActive(true);
+        transform.Find("Stage Panel")?.gameObject.SetActive(true);
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
         transform.Find("Shop Panel")?.gameObject.SetActive(false);
@@ -103,7 +106,7 @@ public class LobbyManager : MonoBehaviour
     {
         transform.Find("Lobby Panel")?.gameObject.SetActive(false);
         transform.Find("Land Panel")?.gameObject.SetActive(false);
-        transform.Find("Stage1 Panel")?.gameObject.SetActive(false);
+        transform.Find("Stage Panel")?.gameObject.SetActive(false);
         transform.Find("Characters Panel")?.gameObject.SetActive(true);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
         transform.Find("Shop Panel")?.gameObject.SetActive(false);
@@ -115,7 +118,7 @@ public class LobbyManager : MonoBehaviour
     {
         transform.Find("Lobby Panel")?.gameObject.SetActive(false);
         transform.Find("Land Panel")?.gameObject.SetActive(false);
-        transform.Find("Stage1 Panel")?.gameObject.SetActive(false);
+        transform.Find("Stage Panel")?.gameObject.SetActive(false);
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(true);
         transform.Find("Shop Panel")?.gameObject.SetActive(false);
@@ -127,10 +130,22 @@ public class LobbyManager : MonoBehaviour
     {
         transform.Find("Lobby Panel")?.gameObject.SetActive(false);
         transform.Find("Land Panel")?.gameObject.SetActive(false);
-        transform.Find("Stage1 Panel")?.gameObject.SetActive(false);
+        transform.Find("Stage Panel")?.gameObject.SetActive(false);
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
         transform.Find("Shop Panel")?.gameObject.SetActive(false);
         transform.Find("Party Panel")?.gameObject.SetActive(true);
+    }
+
+    public void SetLand(int land)
+    {
+        selectLand = land;
+    }
+
+    public void SetStage(int stage) { selectStage = stage; }
+
+    public void StartStage()
+    {
+        SceneLoader.instance.LoadScene("Stage_"+selectLand+ "_" + selectStage);
     }
 }
