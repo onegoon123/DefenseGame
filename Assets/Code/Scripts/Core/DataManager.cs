@@ -75,6 +75,11 @@ public class DataManager : MonoBehaviour
     private List<SkillData> skillDatas = new List<SkillData>();     // Skill 데이터
 
 
+    public List<PieceData> GetPieceDataList()
+    {
+        return pieceDatas;
+    }
+
     /// <summary>
     /// id로 캐릭터를 검색해 PieceData를 받아옵니다
     /// </summary>
@@ -134,6 +139,7 @@ public class DataManager : MonoBehaviour
     {
         if (ContainsPiece(id))
         {
+            Debug.Log("중복 캐릭터 획득");
             return;
         }
         data.pieces.Add(new Piece(id));

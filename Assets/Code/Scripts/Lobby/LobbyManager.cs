@@ -73,7 +73,7 @@ public class LobbyManager : MonoBehaviour
         transform.Find("Stage Panel")?.gameObject.SetActive(false);
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
-        transform.Find("Shop Panel")?.gameObject.SetActive(false);
+        transform.Find("Gacha Panel")?.gameObject.SetActive(false);
         transform.Find("Party Panel")?.gameObject.SetActive(false);
     }
 
@@ -85,7 +85,7 @@ public class LobbyManager : MonoBehaviour
         transform.Find("Stage Panel")?.gameObject.SetActive(false);
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
-        transform.Find("Shop Panel")?.gameObject.SetActive(false);
+        transform.Find("Gacha Panel")?.gameObject.SetActive(false);
         transform.Find("Party Panel")?.gameObject.SetActive(false);
     }
 
@@ -97,7 +97,7 @@ public class LobbyManager : MonoBehaviour
         transform.Find("Stage Panel")?.gameObject.SetActive(true);
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
-        transform.Find("Shop Panel")?.gameObject.SetActive(false);
+        transform.Find("Gacha Panel")?.gameObject.SetActive(false);
         transform.Find("Party Panel")?.gameObject.SetActive(false);
     }
 
@@ -109,7 +109,7 @@ public class LobbyManager : MonoBehaviour
         transform.Find("Stage Panel")?.gameObject.SetActive(false);
         transform.Find("Characters Panel")?.gameObject.SetActive(true);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
-        transform.Find("Shop Panel")?.gameObject.SetActive(false);
+        transform.Find("Gacha Panel")?.gameObject.SetActive(false);
         transform.Find("Party Panel")?.gameObject.SetActive(false);
     }
 
@@ -121,7 +121,19 @@ public class LobbyManager : MonoBehaviour
         transform.Find("Stage Panel")?.gameObject.SetActive(false);
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(true);
-        transform.Find("Shop Panel")?.gameObject.SetActive(false);
+        transform.Find("Gacha Panel")?.gameObject.SetActive(false);
+        transform.Find("Party Panel")?.gameObject.SetActive(false);
+    }
+
+    [ContextMenu("Gacha Panel")]
+    private void GachaPanel()
+    {
+        transform.Find("Lobby Panel")?.gameObject.SetActive(false);
+        transform.Find("Land Panel")?.gameObject.SetActive(false);
+        transform.Find("Stage Panel")?.gameObject.SetActive(false);
+        transform.Find("Characters Panel")?.gameObject.SetActive(false);
+        transform.Find("Piece Panel")?.gameObject.SetActive(false);
+        transform.Find("Gacha Panel")?.gameObject.SetActive(true);
         transform.Find("Party Panel")?.gameObject.SetActive(false);
     }
 
@@ -133,7 +145,7 @@ public class LobbyManager : MonoBehaviour
         transform.Find("Stage Panel")?.gameObject.SetActive(false);
         transform.Find("Characters Panel")?.gameObject.SetActive(false);
         transform.Find("Piece Panel")?.gameObject.SetActive(false);
-        transform.Find("Shop Panel")?.gameObject.SetActive(false);
+        transform.Find("Gacha Panel")?.gameObject.SetActive(false);
         transform.Find("Party Panel")?.gameObject.SetActive(true);
     }
 
