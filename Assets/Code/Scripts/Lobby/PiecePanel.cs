@@ -30,7 +30,7 @@ public class PiecePanel : MonoBehaviour
 
     public void LevelUp()
     {
-        DataManager.instance.SetMoney(DataManager.instance.GetMoney() - LevelUpMoney);
+        DataManager.instance.SetGold(DataManager.instance.GetGold() - LevelUpMoney);
         piece.LevelUp();
         DataManager.instance.SetPiece(piece);
         SetPieceInformation();
@@ -46,10 +46,10 @@ public class PiecePanel : MonoBehaviour
         atkText.text = stats.atk.ToString();
         atkSpeedText.text = stats.atkSpeed.ToString();
 
-        currentMoneyText.text = DataManager.instance.GetMoney().ToString();
+        currentMoneyText.text = DataManager.instance.GetGold().ToString();
         LevelUpMoney = piece.GetLevel() * 100;
         levelUpMoneyText.text = LevelUpMoney.ToString();
 
-        levelUpButton.interactable = LevelUpMoney <= DataManager.instance.GetMoney();
+        levelUpButton.interactable = LevelUpMoney <= DataManager.instance.GetGold();
     }
 }

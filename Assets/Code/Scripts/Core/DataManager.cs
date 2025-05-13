@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +17,7 @@ public class SaveData
 {
     public string playerName = "";          // 플레이어 닉네임
     public int level = 1;                   // 플레이어 레벨
-    public int money = 0;                   // 보유 돈
+    public int gold = 0;                   // 보유 돈
 
     [SerializeField]
     public List<Piece> pieces = new List<Piece>(20);    // 보유 캐릭터들 데이터
@@ -27,7 +28,7 @@ public class SaveData
     public void ClearData()
     {
         level = 1;
-        money = 0;
+        gold = 0;
         pieces.Clear();
         clearStageList.Clear();
         clearStageList.Capacity = 4;
@@ -44,6 +45,8 @@ public class SaveData
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance { get; private set; }
+
+    public Action<int> OnGoldChanged;   // 골드가 변경될때 마다 실행될 Action
 
     private void Awake()
     {
@@ -190,14 +193,18 @@ public class DataManager : MonoBehaviour
         data.clearStageList[land] = stage;
     }
 
-    public int GetMoney()
+    public int GetGold()
     {
-        return data.money;
+        return data.gold;
     }
 
-    public void SetMoney(int money)
+    public void SetGold(int money)
     {
-        data.money = money;
+        if (data.gold != money)
+        {
+            OnGoldChanged?.Invoke(money);
+        }
+        data.gold = money;
     }
 
     /// <summary>
