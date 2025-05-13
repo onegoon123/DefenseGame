@@ -18,6 +18,14 @@ public class GachaManager : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    public void Gacha()
+    {
+        int r = Random.Range(0, gachaMax);
+        DataManager.instance.AddPiece(r);
+        images[0].sprite = DataManager.instance.GetPieceData(r).icon;
+        animator.SetTrigger("Gacha");
+    }
+
     public void Gacha10()
     {
         for (int i = 0; i < 10; i++)
