@@ -29,6 +29,7 @@ public class PartyManager : MonoBehaviour
     [SerializeField]
     private List<PartyMember> partyMembers;
 
+    // 파티 멤버에 memberId를 추가
     public void AddMember(int memberId)
     {
         PieceMainClass memberClass = DataManager.instance.GetPieceClass(memberId);
@@ -53,12 +54,16 @@ public class PartyManager : MonoBehaviour
         UIUpdate();
     }
 
+    // memberId를 파티 멤버에서 제거
     public void RemoveMember(int memberId)
     {
         membersId.Remove(memberId);
         UIUpdate();
     }
 
+    /// <summary>
+    /// 파티원 추가, 제거 시 UI에 반영
+    /// </summary>
     public void UIUpdate()
     {
         foreach (PartyMember member in partyMembers)
@@ -78,6 +83,16 @@ public class PartyManager : MonoBehaviour
                     break;
                 }
             }
+        }
+    }
+
+    public void PartySetting()
+    {
+        // 파티멤버 저장
+        GameManager.instance.pieces.Clear();
+        foreach (int id in membersId)
+        {
+            GameManager.instance.pieces.Add(DataManager.instance.GetPiece(id));
         }
     }
 }
