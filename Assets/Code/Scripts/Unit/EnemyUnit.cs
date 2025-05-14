@@ -14,7 +14,7 @@ public class EnemyUnit : PieceUnit
     {
         base.Start();
         // "King" 태그가 붙은 오브젝트 찾기
-        kingTarget = GameObject.FindWithTag("Piece_king")?.transform;
+        kingTarget = GameObject.FindWithTag("King")?.transform;
 
         // 일정 주기로 경로 갱신
         InvokeRepeating(nameof(UpdatePath), 0f, 1f);

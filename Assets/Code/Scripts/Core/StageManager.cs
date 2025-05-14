@@ -32,7 +32,8 @@ public class StageManager : MonoBehaviour
     public int landNum;
     public int stageNum;
 
-    public GameObject TestPrefab;
+    public GameObject TestPrefab1;
+    public GameObject TestPrefab2;
     // 하나의 칸마다의 사이즈를 지정
     [SerializeField]
     private Vector2 cellSize = new Vector2(10.0f, 10.0f);
@@ -64,7 +65,7 @@ public class StageManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -81,7 +82,31 @@ public class StageManager : MonoBehaviour
                 }
 
                 // 유닛 생성
-                GameObject newObject = Instantiate(TestPrefab);
+                GameObject newObject = Instantiate(TestPrefab1);
+                newObject.transform.position = GridToWorldPosition(gridPos) + Vector3.up * 0.5f;
+
+                // 좌표 기록
+                occupiedTiles.Add(gridPos);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (groundPlane.Raycast(ray, out float enter))
+            {
+                Vector3 hitPoint = ray.GetPoint(enter);
+                int2 gridPos = WorldToGridPosition(hitPoint);
+                Debug.Log(gridPos);
+                // 중복 체크
+                if (occupiedTiles.Contains(gridPos))
+                {
+                    Debug.Log("이미 유닛이 있는 타일입니다.");
+                    return;
+                }
+
+                // 유닛 생성
+                GameObject newObject = Instantiate(TestPrefab2);
                 newObject.transform.position = GridToWorldPosition(gridPos) + Vector3.up * 0.5f;
 
                 // 좌표 기록
