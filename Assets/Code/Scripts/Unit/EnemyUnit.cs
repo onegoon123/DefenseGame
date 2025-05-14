@@ -42,7 +42,6 @@ public class EnemyUnit : PieceUnit
 
                 int2 targetPos = gridPos + new int2(x, y);
                 if (!StageManager.instance.IsValidTile(targetPos)) continue;
-
                 PieceUnit target = StageManager.instance.units[targetPos.x, targetPos.y];
 
                 if (target != null && target.isPlayer)
