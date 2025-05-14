@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -9,21 +10,20 @@ public class SpawnData
 {
     public int point;
     public int code;
-    public float time;
+    public int count;
 }
 
 [Serializable]
 public class EnemyWave
 {
     public List<SpawnData> spawnDatas = new List<SpawnData>();
+    public float waveWaitTime = 0;
 }
 
 public class EnemySpawner : MonoBehaviour
 {
     public TextAsset waveDataFile;
 
-    public float waveWaitTime = 10.0f;
-    
     public List<int2> SpawnPoint = new List<int2>();
     public List<EnemyWave> waves = new List<EnemyWave>();
 
@@ -34,8 +34,8 @@ public class EnemySpawner : MonoBehaviour
         waves.Clear();
 
         string[] lines = waveDataFile.text.Split("\n");
-
         string[] fields = lines[1].Split(',');
+
         for (int i = 0; i < fields.Length; i+=2)
         {
             if (fields.Length <= i + 1)
@@ -47,27 +47,36 @@ public class EnemySpawner : MonoBehaviour
             SpawnPoint.Add(point);
         }
 
-        return;
-
-        /*
-        for (int i = 1; i < lines.Length; i++)
+        for (int i = 2; i < lines.Length; i += 3)
         {
             if (string.IsNullOrWhiteSpace(lines[i]))
                 continue;
 
-            string[] fields = lines[i].Split(',');
+            string[] fields0 = lines[i].Split(',');
+            string[] fields1 = lines[i + 1].Split(',');
+            string[] fields2 = lines[i + 2].Split(',');
 
-            SkillData skill = new SkillData
+            EnemyWave wave = new EnemyWave();
+            wave.waveWaitTime = float.Parse(fields2[0]);
+
+            for (int j = 2; j < fields0.Length; j++)
             {
-                skillId = int.Parse(fields[0]),
-                skillName = fields[1],
-                range = int.Parse(fields[2]),
-                information = fields[3],
-                icon = fields[4]
-            };
+                if (string.IsNullOrWhiteSpace(fields0[j]))
+                    continue;
+                int point = int.Parse(fields0[j]);
+                int code = int.Parse(fields1[j]);
+                int count = int.Parse(fields2[j]);
 
-            skillDatas.Add(skill);
+                SpawnData spawnData = new SpawnData
+                {
+                    point = int.Parse(fields0[j]),
+                    code = int.Parse(fields1[j]),
+                    count = int.Parse(fields2[j]),
+                };
+                wave.spawnDatas.Add(spawnData);
+            }
+
+            waves.Add(wave);
         }
-        */
     }
 }

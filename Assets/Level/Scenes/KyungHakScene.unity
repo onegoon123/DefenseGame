@@ -1678,6 +1678,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd93e419bee86ec489cb95b1853c67b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  landNum: 0
+  stageNum: 0
   TestPrefab: {fileID: 8498966208391240028, guid: 24608bda2ab09f54eb088015991c94ae, type: 3}
   cellSize: {x: 10, y: 10}
   cellGap: {x: 0, y: 0}
@@ -1694,8 +1696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f3d4be467a1d0f4388f08bbe10e5c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveDataFile: {fileID: 4900000, guid: 3eb05efbb7bc3cb43916aa3d70418462, type: 3}
-  waveWaitTime: 10
+  waveDataFile: {fileID: 4900000, guid: 2230c762a19d2ac4eab7bf12ff34eac1, type: 3}
   SpawnPoint:
   - x: 1
     y: 2
@@ -1705,7 +1706,41 @@ MonoBehaviour:
     y: 6
   - x: 7
     y: 3
-  waves: []
+  waves:
+  - spawnDatas:
+    - point: 0
+      code: 0
+      count: 10
+    - point: 1
+      code: 1
+      count: 10
+    - point: 2
+      code: 2
+      count: 10
+    - point: 3
+      code: 3
+      count: 10
+    - point: 3
+      code: 4
+      count: 10
+    waveWaitTime: 1.5
+  - spawnDatas:
+    - point: 0
+      code: 0
+      count: 10
+    - point: 0
+      code: 2
+      count: 10
+    - point: 1
+      code: 1
+      count: 10
+    - point: 2
+      code: 2
+      count: 10
+    - point: 3
+      code: 3
+      count: 10
+    waveWaitTime: 2
 --- !u!1 &678240752
 GameObject:
   m_ObjectHideFlags: 0
