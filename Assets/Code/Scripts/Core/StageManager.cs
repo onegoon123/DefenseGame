@@ -15,6 +15,13 @@ public enum TileType
 
 public class StageManager : MonoBehaviour
 {
+    public bool IsValidTile(int2 pos)
+    {
+        return pos.x >= 0 && pos.y >= 0
+            && pos.x < tiles.GetLength(0)
+            && pos.y < tiles.GetLength(1);
+    }
+
 
     public List<int2> GetBlockedTiles()
     {

@@ -14,6 +14,18 @@ public abstract class PieceUnit : MonoBehaviour
     /// <summary> 이 유닛이 플레이어면 true입니다 </summary>
     public bool isPlayer { get; private set; }
 
+    public int hp = 3;
+
+    public virtual void TakeDamage(int dmg)
+    {
+        hp -= dmg;
+        if (hp <= 0)
+        {
+            StageManager.instance.units[gridPos.x, gridPos.y] = null;
+            Destroy(gameObject);
+        }
+    }
+
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
