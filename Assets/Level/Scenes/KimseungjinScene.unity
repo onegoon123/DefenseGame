@@ -2227,7 +2227,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd93e419bee86ec489cb95b1853c67b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TestPrefab: {fileID: 8498966208391240028, guid: 24608bda2ab09f54eb088015991c94ae, type: 3}
+  landNum: 0
+  stageNum: 0
+  TestPrefab1: {fileID: 3083476022155111009, guid: 3da2e802d2093df4bae8c4737b51bbfd, type: 3}
+  TestPrefab2: {fileID: 3083476022155111009, guid: 63a6704ef4749e3438a36c966d2eb7da, type: 3}
   cellSize: {x: 10, y: 10}
   cellGap: {x: 0, y: 0}
   cellOffset: {x: 5, y: 0, z: 5}
@@ -2244,7 +2247,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageParent: {fileID: 629476195}
-  csvFile: {fileID: 4900000, guid: b8180ebebe016c14496f5b7438aca6cb, type: 3}
+  stageCSVFile: {fileID: 0}
+  tileCSVFile: {fileID: 0}
   prefabList:
   - {fileID: 4551230641668630736, guid: 3264b905a7879c84cbadfac55300a8cb, type: 3}
   - {fileID: 8342078219822298413, guid: c0e45d01cdeae124dae7fb18c96620e9, type: 3}
