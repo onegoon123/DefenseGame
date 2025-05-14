@@ -88,9 +88,9 @@ public class EnemyUnit : PieceUnit
             pathIndex++;
     }
 
-    // ▼ A* 관련 메서드 생략 (그대로 유지하면 됨)
-    List<int2> FindSimplePath(int2 start, int2 goal) { /* 그대로 사용 */ return path; }
-    List<int2> ReconstructPath(Dictionary<int2, int2> cameFrom, int2 current) { /* 생략 */ return path; }
+    // ▼ A* 관련 메서드 생략 
+    List<int2> FindSimplePath(int2 start, int2 goal) {  return path; }
+    List<int2> ReconstructPath(Dictionary<int2, int2> cameFrom, int2 current) {  return path; }
     int Heuristic(int2 a, int2 b) => math.abs(a.x - b.x) + math.abs(a.y - b.y);
     readonly int2[] Directions = new int2[] { new int2(0, 1), new int2(0, -1), new int2(1, 0), new int2(-1, 0) };
 }
