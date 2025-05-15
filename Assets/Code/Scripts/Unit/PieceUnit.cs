@@ -100,7 +100,7 @@ public abstract class PieceUnit : MonoBehaviour
                 if (target != null && target.isPlayer != this.isPlayer)
                 {
                     int distance = math.abs(target.gridPos.x - gridPos.x) + math.abs(target.gridPos.y - gridPos.y);
-                    if (maxDistance < distance)
+                    if (distance < maxDistance)
                     {
                         resultTarget = target;
                         maxDistance = distance;
