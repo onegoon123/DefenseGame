@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public abstract class PieceUnit : MonoBehaviour
@@ -22,9 +23,9 @@ public abstract class PieceUnit : MonoBehaviour
     protected Vector3 moveTargetPos;
     private float moveTimer = 0;
     [SerializeField]
-    protected float moveSpeed = 2f;
+    protected float moveSpeed = 2.0f;
     [SerializeField]
-    private float moveDelay = .5f;
+    private float moveDelay = 0.5f;
 
     public virtual void TakeDamage(int dmg)
     {
@@ -78,9 +79,9 @@ public abstract class PieceUnit : MonoBehaviour
         int maxTargets = (atkRange * 2 + 1) * (atkRange * 2 + 1) - 1;
         List<PieceUnit> targets = new List<PieceUnit>(maxTargets);
 
-        for (int x = -atkRange ; x <= atkRange ; x++)
+        for (int x = -atkRange; x <= atkRange; x++)
         {
-            for (int y = -atkRange ; y <= atkRange ; y++)
+            for (int y = -atkRange; y <= atkRange; y++)
             {
                 // 대각선 공격 가능 여부에 따라 처리
                 if (!canAttackDiagonally && math.abs(x) + math.abs(y) > atkRange) continue;
@@ -107,9 +108,9 @@ public abstract class PieceUnit : MonoBehaviour
         int maxDistance = 9999;
         PieceUnit resultTarget = null;
 
-        for (int x = -atkRange ; x <= atkRange ; x++)
+        for (int x = -atkRange; x <= atkRange; x++)
         {
-            for (int y = -atkRange ; y <= atkRange ; y++)
+            for (int y = -atkRange; y <= atkRange; y++)
             {
                 // 대각선 공격 가능 여부에 따라 처리
                 if (!canAttackDiagonally && math.abs(x) + math.abs(y) > atkRange) continue;
@@ -135,15 +136,31 @@ public abstract class PieceUnit : MonoBehaviour
         return resultTarget;
     }
 
+    private float EaseOutQuad(float progress)
+    {
+        return 1 - (1 - progress) * (1 - progress);
+    }
+
+    private float easeInOutQuint(float progress)
+    {
+        if (progress < 0.5) {
+            return 16 * math.pow(progress, 5);
+        }
+        else
+        {
+            return 1 - math.pow(-2 * progress + 2, 5) / 2;
+        }
+    }
+
     private void MoveUpdate()
     {
         if (moveTimer < 1)
         {
-            transform.position = Vector3.Lerp(moveStartPos, moveTargetPos, moveTimer);
+            transform.position = Vector3.Lerp(moveStartPos, moveTargetPos, EaseOutQuad(moveTimer));
             moveTimer += Time.deltaTime * moveSpeed;
             return;
         }
-
+        
         transform.position = moveTargetPos;
         isMove = false;
     }
@@ -153,7 +170,7 @@ public abstract class PieceUnit : MonoBehaviour
         SetGridPos(pos);
         moveStartPos = transform.position;
         moveTargetPos = StageManager.instance.GridToWorldPosition(pos);
-        //animator.SetBool()
+        animator.SetTrigger("Move");
         isMove = true;
         moveTimer = 0;
     }

@@ -107,6 +107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8500969003468589583}
   - component: {fileID: 947987846077228968}
+  - component: {fileID: 1072965954431884880}
   m_Layer: 6
   m_Name: Piece(King)
   m_TagString: King
@@ -142,5 +143,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbe59fb91f4bb764ab7e99fda2ad5897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 4
   moveDelay: 0.1
+--- !u!95 &1072965954431884880
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3083476022155111009}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 05bc0a9e756917440a86a9fd26670f98, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
