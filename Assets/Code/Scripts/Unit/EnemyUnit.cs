@@ -4,7 +4,7 @@ using Unity.Mathematics;
 
 public class EnemyUnit : PieceUnit
 {
-    public float moveSpeed = 2f;
+    //public float moveSpeed = 2f;
     public float atkCooldown = 1f; // 공격 쿨타임
     private float atkTimer = 0f;
 

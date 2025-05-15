@@ -17,6 +17,14 @@ public abstract class PieceUnit : MonoBehaviour
     protected int hp = 3;
     protected int atkRange = 1;                     // 공격 사거리
     protected bool canAttackDiagonally = false;     // 대각선 공격이 가능한지
+    protected bool isMove = false;
+    protected Vector3 moveStartPos;
+    protected Vector3 moveTargetPos;
+    private float moveTimer = 0;
+    [SerializeField]
+    protected float moveSpeed = 2f;
+    [SerializeField]
+    private float moveDelay = .5f;
 
     public virtual void TakeDamage(int dmg)
     {
@@ -45,6 +53,22 @@ public abstract class PieceUnit : MonoBehaviour
             {
                 skill.Activate(this);
             }
+        }
+
+        if (isMove)
+        {
+            MoveUpdate();
+        }
+
+        // 테스트용
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            MoveGridPos(gridPos + new int2(1, 0));
+        }
+        // 테스트용
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            MoveGridPos(gridPos + new int2(-1, 0));
         }
     }
 
@@ -109,6 +133,29 @@ public abstract class PieceUnit : MonoBehaviour
             }
         }
         return resultTarget;
+    }
+
+    private void MoveUpdate()
+    {
+        if (moveTimer < 1)
+        {
+            transform.position = Vector3.Lerp(moveStartPos, moveTargetPos, moveTimer);
+            moveTimer += Time.deltaTime * moveSpeed;
+            return;
+        }
+
+        transform.position = moveTargetPos;
+        isMove = false;
+    }
+
+    protected void MoveGridPos(int2 pos)
+    {
+        SetGridPos(pos);
+        moveStartPos = transform.position;
+        moveTargetPos = StageManager.instance.GridToWorldPosition(pos);
+        //animator.SetBool()
+        isMove = true;
+        moveTimer = 0;
     }
 
     protected void SetGridPos(int2 pos)
