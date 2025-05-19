@@ -15,16 +15,16 @@ public abstract class PieceUnit : MonoBehaviour
     public int currentHP;
     public int maxMP;
     public int currentMP;
-    public int atkRange;                        // 공격 사거리
+    public int atkRange;                    // 공격 사거리
+    public bool diagonalAttack = false;     // 대각선 공격
     public int atk;
     public int2 gridPos;
-    public float moveSpeed = 2.0f;
     public Transform projectileSpawnPoint;
+    public float moveSpeed = 2.0f;
 
     /// <summary> 이 유닛이 플레이어면 true입니다 </summary>
     public bool isPlayer { get; private set; }
 
-    protected bool canAttackDiagonally = false;     // 대각선 공격이 가능한지
     protected bool isMove = false;
     protected Vector3 moveStartPos;
     protected Vector3 moveTargetPos;
@@ -64,8 +64,6 @@ public abstract class PieceUnit : MonoBehaviour
             return;
         }
 
-        if (attack == null) { return; }
-
         if (attack.CanActivate(this))
         {
             attack.Activate(this);
@@ -96,7 +94,7 @@ public abstract class PieceUnit : MonoBehaviour
             for (int y = -atkRange; y <= atkRange; y++)
             {
                 // 대각선 공격 가능 여부에 따라 처리
-                if (!canAttackDiagonally && math.abs(x) + math.abs(y) > atkRange) continue;
+                if (!diagonalAttack && math.abs(x) + math.abs(y) > atkRange) continue;
 
                 int2 targetPos = gridPos + new int2(x, y);
 
@@ -125,7 +123,7 @@ public abstract class PieceUnit : MonoBehaviour
             for (int y = -atkRange; y <= atkRange; y++)
             {
                 // 대각선 공격 가능 여부에 따라 처리
-                if (!canAttackDiagonally && math.abs(x) + math.abs(y) > atkRange) continue;
+                if (!diagonalAttack && math.abs(x) + math.abs(y) > atkRange) continue;
 
                 int2 targetPos = gridPos + new int2(x, y);
 

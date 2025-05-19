@@ -33,12 +33,7 @@ public class EnemyUnit : PieceUnit
         if (isMove) return;
         
         PieceUnit target = FindTargetInRange();
-        // 사거리 안에 아군이 있으면 공격 → 없으면 이동
-        if (target != null)
-        {
-            Attack(target);
-        }
-        else
+        if (target == null)
         {
             FollowPath(); // 공격 대상 없을 때만 이동
         }
@@ -81,7 +76,8 @@ public class EnemyUnit : PieceUnit
             FollowPath();
             return;
         }
-        
+
+        LookAtTarget(king);
         moveDelayTimer = moveDelay;
         MoveGridPos(path[++pathIndex]);
     }

@@ -168,17 +168,18 @@ MonoBehaviour:
   spriteAnimator: {fileID: 6411411562705170049}
   attack: {fileID: 11400000, guid: 8063e4dec9f239f43a94a15e46af4f17, type: 2}
   skill: {fileID: 0}
-  maxHP: 2147483647
+  maxHP: 50
   currentHP: 0
   maxMP: 0
   currentMP: 0
-  atkRange: 8
-  atk: 10
+  atkRange: 5
+  diagonalAttack: 0
+  atk: 4
   gridPos:
     x: 0
     y: 0
-  moveSpeed: 4
   projectileSpawnPoint: {fileID: 5172412359396004146}
+  moveSpeed: 4
 --- !u!1 &3106872585593012605
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,9 +32,4 @@ public class Fireball : SkillBase
         cooldownTimer = cooldown;
     }
 
-    public override bool CanActivate(PieceUnit unit)
-    {
-        cooldownTimer -= Time.deltaTime;
-        return cooldownTimer < 0;
-    }
 }
