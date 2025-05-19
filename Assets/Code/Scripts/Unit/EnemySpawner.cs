@@ -32,6 +32,8 @@ public class EnemySpawner : MonoBehaviour
 {
     public TextAsset waveDataFile;
 
+    public float spawnWaitTime = 1.0f;
+
     public List<int2> SpawnPoint = new List<int2>();
     public List<EnemyWave> waves = new List<EnemyWave>();
     public List<GameObject> enemies = new List<GameObject>();
@@ -40,6 +42,7 @@ public class EnemySpawner : MonoBehaviour
     private EnemyWave currentWave = null;
     private int waveIndex = 0;
     private float waitTime = 0;
+    private float spawnWaitTimer = 0;
 
 
     private void ChangeState(EnemySpawnerState state)
@@ -120,6 +123,13 @@ public class EnemySpawner : MonoBehaviour
     }
     private void WaveUpdate()
     {
+        if (0 < spawnWaitTimer)
+        {
+            spawnWaitTimer -= Time.deltaTime;
+            return;
+        }
+        spawnWaitTimer = spawnWaitTime;
+
         bool clearWave = true;  // 모든 적이 스폰하여 웨이브가 끝났다면 true가 유지된다
         foreach (SpawnData spawnData in currentWave.spawnDatas)
         {
@@ -135,10 +145,9 @@ public class EnemySpawner : MonoBehaviour
                 // 유닛 생성
                 SpawnEnemy(spawnPos, spawnData.code);
                 spawnData.count--;
-                break;
             }
         }
-
+        
         if (clearWave)
         {
             if (waves.Count <= ++waveIndex)
@@ -151,13 +160,13 @@ public class EnemySpawner : MonoBehaviour
             }
         }
     }
-    static int c = 0;
 
+    static int enemyCount = 0;
     private void SpawnEnemy(int2 pos, int code)
     {
         Vector3 worldPos = StageManager.instance.GridToWorldPosition(pos);
         GameObject newEnemy = Instantiate(enemies[code]);
-        newEnemy.name = "enemy" + c++;
+        newEnemy.name = "enemy" + enemyCount++;
         newEnemy.GetComponent<PieceUnit>().Setting(pos);
     }
 

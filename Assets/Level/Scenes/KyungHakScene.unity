@@ -2032,6 +2032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveDataFile: {fileID: 4900000, guid: 0541fc9e09bb7254681cf5eafcfeb5c5, type: 3}
+  spawnWaitTime: 3
   SpawnPoint:
   - x: 0
     y: 0
@@ -2045,31 +2046,17 @@ MonoBehaviour:
   - spawnDatas:
     - point: 0
       code: 0
-      count: 10
+      count: 5
     - point: 1
       code: 0
-      count: 10
+      count: 5
     - point: 2
       code: 0
-      count: 10
+      count: 5
     - point: 3
       code: 0
-      count: 10
+      count: 5
     waveWaitTime: 1.5
-  - spawnDatas:
-    - point: 0
-      code: 0
-      count: 10
-    - point: 0
-      code: 0
-      count: 10
-    - point: 1
-      code: 0
-      count: 10
-    - point: 3
-      code: 0
-      count: 10
-    waveWaitTime: 2
   enemies:
   - {fileID: 3083476022155111009, guid: 63a6704ef4749e3438a36c966d2eb7da, type: 3}
 --- !u!1 &576660265
