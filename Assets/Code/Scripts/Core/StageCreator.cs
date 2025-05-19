@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UIElements;
@@ -9,7 +10,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class StageCreator : MonoBehaviour
 {
 
-    private StageManager stageManager;
+    public StageManager stageManager;
 
     // 스테이지를 생성할 오브젝트들의 부모
     public Transform stageParent;
@@ -45,13 +46,17 @@ public class StageCreator : MonoBehaviour
 
         // CSV 파일을 읽어 스테이지 생성
         string[] lines = stageCSVFile.text.Split("\n");
-
-        for (int z = 0 ; z < lines.Length ; z++)
         {
-            if (string.IsNullOrWhiteSpace(lines[z]))
+            string[] fields = lines[0].Split(',');
+            stageManager.stageSize = new (fields.Length, lines.Length);
+        }
+
+        for (int y = 0 ; y < lines.Length ; y++)
+        {
+            if (string.IsNullOrWhiteSpace(lines[y]))
                 continue;
 
-            string[] fields = lines[z].Split(',');
+            string[] fields = lines[y].Split(',');
 
             for (int x = 0 ; x < fields.Length ; x++)
             {
@@ -60,16 +65,18 @@ public class StageCreator : MonoBehaviour
                 // -1 인 경우는 스킵
                 if (value == -1) continue;
 
-                CreateInstance(x, z, value);
+                CreateInstance(x, y, value);
             }
         }
+
+        CreateTile();
     }
 
-    private void CreateInstance(int x, int z, int value)
+    private void CreateInstance(int x, int y, int value)
     {
         // 생성할 프리팹 지정 (체크무늬를 만들 지 체크)
         GameObject prefab;
-        if ((x + z) % 2 == 0 && value < prefabList_Check.Count)
+        if ((x + y) % 2 == 0 && value < prefabList_Check.Count)
         {
             // 체크무늬
             prefab = prefabList_Check[value];
@@ -83,35 +90,26 @@ public class StageCreator : MonoBehaviour
         GameObject newObject = Instantiate(prefab, stageParent);
 
         // 위치 조정
-        newObject.transform.position += new Vector3(x * cellSize.x, 0, z * cellSize.y) + new Vector3(x * cellGap.x, 0, z * cellGap.y) + cellOffset;
-    }
-
-    public void Start()
-    {
-        CreateTile();
+        newObject.transform.position += new Vector3(x * cellSize.x, 0, y * cellSize.y) + new Vector3(x * cellGap.x, 0, y * cellGap.y) + cellOffset;
     }
 
     public void CreateTile()
     {
-        StageManager stage = FindAnyObjectByType<StageManager>();
-
         // CSV 파일을 읽어 타일 생성
         string[] lines = tileCSVFile.text.Split("\n");
-        stage.tiles = new TileType[lines.Length, lines[0].Split(',').Length];
-        for (int i = 0 ; i < lines.Length ; i++)
+        //stageManager.tiles = new TileType[lines.Length, lines[0].Split(',').Length];
+        for (int y = 0 ; y < lines.Length ; y++)
         {
-            if (string.IsNullOrWhiteSpace(lines[i]))
+            if (string.IsNullOrWhiteSpace(lines[y]))
                 continue;
 
-            string[] fields = lines[i].Split(',');
+            string[] fields = lines[y].Split(',');
 
-            for (int j = 0 ; j < fields.Length ; j++)
+            for (int x = 0 ; x < fields.Length ; x++)
             {
-                int value = int.Parse(fields[j]);
-                stage.tiles[i,j] = (TileType)value;
+                int value = int.Parse(fields[x]);
+                stageManager.SetTileType(new(x, y), (TileType)value);
             }
         }
-        Debug.Log("x" + lines.Length + " y " + lines[0].Split(',').Length);
-        Debug.Log("x" + stage.tiles.GetLength(0) + " y " + stage.tiles.GetLength(1));
     }
 }

@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using UnityEngine;
 
 // 타일 타입
+[Serializable]
 public enum TileType
 {
     None,
@@ -32,9 +33,13 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private Vector3 cellOffset = Vector3.zero;
 
-    private PieceUnit[,] units = new PieceUnit[11,7];
+    public int2 stageSize;
 
-    public TileType[,] tiles = new TileType[11, 7];
+    [SerializeField]
+    private PieceUnit[] units = new PieceUnit[11*7];
+
+    [SerializeField]
+    private TileType[] tiles = new TileType[11*7];
 
     // 가상의 평면 충돌체
     private Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
@@ -126,10 +131,11 @@ public class StageManager : MonoBehaviour
 
         SceneLoader.instance.LoadScene("LobbyScene");
     }
-
+    
+    private int GetStageIndex(int2 pos) { return pos.y * stageSize.x + pos.x; }
     public PieceUnit GetUnit(int2 pos)
     {
-        return units[pos.x, pos.y];
+        return units[GetStageIndex(pos)];
     }
 
     public void SetUnit(PieceUnit unit)
@@ -138,17 +144,17 @@ public class StageManager : MonoBehaviour
     }
     public void SetUnit(int2 pos, PieceUnit unit)
     {
-        PieceUnit findUnit = units[pos.x, pos.y];
+        PieceUnit findUnit = units[GetStageIndex(pos)];
         if (findUnit == null)
         {
-            units[pos.x, pos.y] = unit;
+            units[GetStageIndex(pos)] = unit;
             return;
         }
         Debug.Log(findUnit.gameObject.name + " 이미 있어요");
     }
     public void ClearUnit(int2 pos)
     {
-        units[pos.x, pos.y] = null;
+        units[GetStageIndex(pos)] = null;
     }
 
     public bool IsValidTile(int2 pos)
@@ -165,15 +171,13 @@ public class StageManager : MonoBehaviour
 
     public TileType GetTileType(int2 pos)
     {
-        if (11 <= pos.x || 7 <= pos.y || pos.x < 0 || pos.y < 0)
-        {
-            Debug.Log(pos);
-            Debug.Log("얘 뭐임");
-            return TileType.None;
-        }
-        return tiles[pos.x, pos.y];
+        return tiles[GetStageIndex(pos)];
     }
-
+    public void SetTileType(int2 pos, TileType type)
+    {
+        Debug.Log(GetStageIndex(pos));
+        tiles[GetStageIndex(pos)] = type;
+    }
     public List<int2> GetBlockedTiles()
     {
         // 막혀있는 타일 좌표 삽입해야함

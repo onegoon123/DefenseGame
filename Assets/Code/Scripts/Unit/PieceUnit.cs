@@ -190,4 +190,10 @@ public abstract class PieceUnit : MonoBehaviour
         gridPos += pos;
         StageManager.instance.SetUnit(this);
     }
+
+    [ContextMenu("Set World From Grid")]
+    public void SetWorldPosFromGridPos()
+    {
+        transform.position = FindFirstObjectByType<StageManager>().GridToWorldPosition(gridPos);
+    }
 }
