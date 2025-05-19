@@ -132,7 +132,6 @@ public class EnemySpawner : MonoBehaviour
             int2 spawnPos = SpawnPoint[spawnData.point];
             if (StageManager.instance.GetUnit(spawnPos) == null)
             {
-                Debug.Log(spawnPos + " ½ºÆùµÊ");
                 // À¯´Ö »ý¼º
                 SpawnEnemy(spawnPos, spawnData.code);
                 spawnData.count--;

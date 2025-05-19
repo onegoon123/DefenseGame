@@ -143,9 +143,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2040ac2ad57150947ae6fac26351a61d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridPos:
+    x: 0
+    y: 0
   moveSpeed: 2
-  moveDelay: 0.5
   atkCooldown: 1
+  moveDelay: 1
 --- !u!95 &8710717033147303799
 Animator:
   serializedVersion: 5

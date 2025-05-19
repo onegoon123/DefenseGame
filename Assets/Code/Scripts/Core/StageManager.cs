@@ -21,8 +21,10 @@ public class StageManager : MonoBehaviour
     public int landNum;
     public int stageNum;
 
-    public GameObject TestPrefab1;
-    public GameObject TestPrefab2;
+    public PlayerUnit king { get; private set; }
+    public GameObject kingObject;
+    public int2 kingPos;
+
     // 하나의 칸마다의 사이즈를 지정
     [SerializeField]
     private Vector2 cellSize = new Vector2(10.0f, 10.0f);
@@ -36,10 +38,10 @@ public class StageManager : MonoBehaviour
     public int2 stageSize;
 
     [SerializeField]
-    private PieceUnit[] units = new PieceUnit[11*7];
+    private PieceUnit[] units = new PieceUnit[10];
 
     [SerializeField]
-    private TileType[] tiles = new TileType[11*7];
+    private TileType[] tiles = new TileType[10];
 
     // 가상의 평면 충돌체
     private Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
@@ -56,56 +58,11 @@ public class StageManager : MonoBehaviour
         instance = this;
     }
 
-    private void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (groundPlane.Raycast(ray, out float enter))
-            {
-                Vector3 hitPoint = ray.GetPoint(enter);
-                int2 gridPos = WorldToGridPosition(hitPoint);
-                Debug.Log(gridPos);
-                // 중복 체크
-                if (occupiedTiles.Contains(gridPos))
-                {
-                    Debug.Log("이미 유닛이 있는 타일입니다.");
-                    return;
-                }
-
-                // 유닛 생성
-                GameObject newObject = Instantiate(TestPrefab1);
-                newObject.transform.position = GridToWorldPosition(gridPos) + Vector3.up * 0.5f;
-
-                // 좌표 기록
-                occupiedTiles.Add(gridPos);
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (groundPlane.Raycast(ray, out float enter))
-            {
-                Vector3 hitPoint = ray.GetPoint(enter);
-                int2 gridPos = WorldToGridPosition(hitPoint);
-                Debug.Log(gridPos);
-                // 중복 체크
-                if (occupiedTiles.Contains(gridPos))
-                {
-                    Debug.Log("이미 유닛이 있는 타일입니다.");
-                    return;
-                }
-
-                // 유닛 생성
-                GameObject newObject = Instantiate(TestPrefab2);
-                newObject.transform.position = GridToWorldPosition(gridPos) + Vector3.up * 0.5f;
-
-                // 좌표 기록
-                occupiedTiles.Add(gridPos);
-            }
-        }
+        GameObject obj = Instantiate(kingObject);
+        king = obj.GetComponent<PlayerUnit>();
+        king.Setting(kingPos);
     }
 
     public int2 WorldToGridPosition(Vector3 worldPos)
@@ -160,13 +117,8 @@ public class StageManager : MonoBehaviour
     public bool IsValidTile(int2 pos)
     {
         return pos.x >= 0 && pos.y >= 0
-            && pos.x < 11
-            && pos.y < 7;
-
-        /*
-        return pos.x >= 0 && pos.y >= 0
-            && pos.x < units.GetLength(0)
-            && pos.y < units.GetLength(1);*/
+            && pos.x < stageSize.x
+            && pos.y < stageSize.y;
     }
 
     public TileType GetTileType(int2 pos)
