@@ -12,20 +12,35 @@ public class EnemyUnit : PieceUnit
     private int pathIndex = 0;
     private Transform kingTarget;
 
+    [SerializeField]
+    private float moveDelay = 0.5f;
+    private float moveDelayTimer = 0f;
+
     protected override void Start()
     {
         base.Start();
         kingTarget = GameObject.FindWithTag("King")?.transform;
         InvokeRepeating(nameof(UpdatePath), 0f, 1f);
+        moveDelayTimer = moveDelay;
     }
 
     protected override void Update()
     {
         base.Update();
-        atkTimer -= Time.deltaTime;
 
+        atkTimer -= Time.deltaTime;
+        if (isMove) return;
+        
+        
+
+
+        PieceUnit target = FindTargetInRange();
         // 사거리 안에 아군이 있으면 공격 → 없으면 이동
-        if (!TryAttackNearbyPlayer())
+        if (target != null)
+        {
+            Attack(target);
+        }
+        else
         {
             FollowPath(); // 공격 대상 없을 때만 이동
         }
@@ -42,7 +57,7 @@ public class EnemyUnit : PieceUnit
 
                 int2 targetPos = gridPos + new int2(x, y);
                 if (!StageManager.instance.IsValidTile(targetPos)) continue;
-                PieceUnit target = StageManager.instance.units[targetPos.x, targetPos.y];
+                PieceUnit target = StageManager.instance.GetUnit(targetPos);
 
                 if (target != null && target.isPlayer)
                 {
@@ -77,19 +92,76 @@ public class EnemyUnit : PieceUnit
 
     void FollowPath()
     {
-        if (path == null || pathIndex >= path.Count) return;
+        if (0 < moveDelayTimer)
+        {
+            moveDelayTimer -= Time.deltaTime;
+            return;
+        }
 
-        Vector3 targetPos = StageManager.instance.GridToWorldPosition(path[pathIndex]) + Vector3.up * 0.5f;
-        Vector3 dir = (targetPos - transform.position).normalized;
-        transform.position += dir * moveSpeed * Time.deltaTime;
-
-        if (Vector3.Distance(transform.position, targetPos) < 0.1f)
-            pathIndex++;
+        if (path == null || pathIndex+1 >= path.Count) return;
+        if (StageManager.instance.GetUnit(path[pathIndex+1]) != null) return;
+        
+        moveDelayTimer = moveDelay;
+        MoveGridPos(path[++pathIndex]);
     }
 
-    // ▼ A* 관련 메서드 생략 
-    List<int2> FindSimplePath(int2 start, int2 goal) {  return path; }
-    List<int2> ReconstructPath(Dictionary<int2, int2> cameFrom, int2 current) {  return path; }
+    // ▼ A*
+    List<int2> FindSimplePath(int2 start, int2 goal)
+    {
+        if(name == "enemy20")
+        {
+            Debug.Log("길 찾는중");
+        }
+        HashSet<int2> closed = new HashSet<int2>();
+        Dictionary<int2, int2> cameFrom = new Dictionary<int2, int2>();
+        List<int2> open = new List<int2> { start };
+        Dictionary<int2, int> gScore = new Dictionary<int2, int> { [start] = 0 };
+
+        while (open.Count > 0)
+        {
+            open.Sort((a, b) => (gScore[a] + Heuristic(a, goal)).CompareTo(gScore[b] + Heuristic(b, goal)));
+            int2 current = open[0];
+            open.RemoveAt(0);
+
+            if (current.Equals(goal))
+                return ReconstructPath(cameFrom, current);
+
+            closed.Add(current);
+
+            foreach (int2 dir in Directions)
+            {
+                int2 neighbor = current + dir;
+
+                if (closed.Contains(neighbor)) continue;
+
+                // 임시로 작성했습니다, 이동할 타일에 유닛이 있거나 Walkable 타일이 아니면 continue
+                if (StageManager.instance.IsValidTile(neighbor) == false) continue;
+                if (StageManager.instance.GetUnit(neighbor) != null) continue;
+                if (StageManager.instance.GetTileType(neighbor) != TileType.Walkable) continue;
+
+                int tentativeG = gScore[current] + 1;
+                if (!gScore.ContainsKey(neighbor) || tentativeG < gScore[neighbor])
+                {
+                    cameFrom[neighbor] = current;
+                    gScore[neighbor] = tentativeG;
+                    if (!open.Contains(neighbor)) open.Add(neighbor);
+                }
+            }
+        }
+
+        return new List<int2>(); // 경로 없음
+    }
+    List<int2> ReconstructPath(Dictionary<int2, int2> cameFrom, int2 current)
+    {
+        List<int2> path = new List<int2> { current };
+        while (cameFrom.ContainsKey(current))
+        {
+            current = cameFrom[current];
+            path.Add(current);
+        }
+        path.Reverse();
+        return path;
+    }
     int Heuristic(int2 a, int2 b) => math.abs(a.x - b.x) + math.abs(a.y - b.y);
     readonly int2[] Directions = new int2[] { new int2(0, 1), new int2(0, -1), new int2(1, 0), new int2(-1, 0) };
 }

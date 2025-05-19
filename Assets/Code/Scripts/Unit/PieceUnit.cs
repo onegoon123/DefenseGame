@@ -10,12 +10,12 @@ public abstract class PieceUnit : MonoBehaviour
     protected Animator animator;
     protected List<Skill> skills = new List<Skill>();
 
-    protected int2 gridPos;
+    public int2 gridPos;
 
     /// <summary> 이 유닛이 플레이어면 true입니다 </summary>
     public bool isPlayer { get; private set; }
 
-    protected int hp = 3;
+    protected int hp = 999999999;
     protected int atkRange = 1;                     // 공격 사거리
     protected bool canAttackDiagonally = false;     // 대각선 공격이 가능한지
     protected bool isMove = false;
@@ -24,15 +24,20 @@ public abstract class PieceUnit : MonoBehaviour
     private float moveTimer = 0;
     [SerializeField]
     protected float moveSpeed = 2.0f;
-    [SerializeField]
-    private float moveDelay = 0.5f;
+
+    public void Setting(int2 pos)
+    {
+        gridPos = pos;
+        transform.position = StageManager.instance.GridToWorldPosition(gridPos);
+        StageManager.instance.SetUnit(this);
+    }
 
     public virtual void TakeDamage(int dmg)
     {
         hp -= dmg;
         if (hp <= 0)
         {
-            StageManager.instance.units[gridPos.x, gridPos.y] = null;
+            StageManager.instance.SetUnit(gridPos, null);
             Destroy(gameObject);
         }
     }
@@ -40,10 +45,7 @@ public abstract class PieceUnit : MonoBehaviour
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
-
         isPlayer = this is PlayerUnit;      // 이 클래스가 PlayerUnit이거나 PlayerUnit을 상속받으면 isPlayer가 true
-        gridPos = StageManager.instance.WorldToGridPosition(transform.position);
-        StageManager.instance.units[gridPos.x, gridPos.y] = this;
     }
 
     protected virtual void Update()
@@ -91,7 +93,7 @@ public abstract class PieceUnit : MonoBehaviour
                 // 유효한 타일인지 확인
                 if (!StageManager.instance.IsValidTile(targetPos)) continue;
 
-                PieceUnit target = StageManager.instance.units[targetPos.x, targetPos.y];
+                PieceUnit target = StageManager.instance.GetUnit(targetPos);
                 // 유효한 적인지 확인
                 if (target != null && target.isPlayer != this.isPlayer)
                 {
@@ -120,7 +122,7 @@ public abstract class PieceUnit : MonoBehaviour
                 // 유효한 타일인지 확인
                 if (!StageManager.instance.IsValidTile(targetPos)) continue;
 
-                PieceUnit target = StageManager.instance.units[targetPos.x, targetPos.y];
+                PieceUnit target = StageManager.instance.GetUnit(targetPos);
                 // 유효한 적인지 확인
                 if (target != null && target.isPlayer != this.isPlayer)
                 {
@@ -177,15 +179,15 @@ public abstract class PieceUnit : MonoBehaviour
 
     protected void SetGridPos(int2 pos)
     {
-        StageManager.instance.units[gridPos.x, gridPos.y] = null;
+        StageManager.instance.ClearUnit(gridPos);
         gridPos = pos;
-        StageManager.instance.units[gridPos.x, gridPos.y] = this;
+        StageManager.instance.SetUnit(this);
     }
 
     public void AddGridPos(int2 pos)
     {
-        StageManager.instance.units[gridPos.x, gridPos.y] = null;
+        StageManager.instance.ClearUnit(gridPos);
         gridPos += pos;
-        StageManager.instance.units[gridPos.x, gridPos.y] = this;
+        StageManager.instance.SetUnit(this);
     }
 }

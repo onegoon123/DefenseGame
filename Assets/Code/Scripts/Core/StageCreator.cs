@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UIElements;
 using static UnityEngine.Rendering.DebugUI;
 
@@ -96,11 +97,7 @@ public class StageCreator : MonoBehaviour
 
         // CSV 파일을 읽어 타일 생성
         string[] lines = tileCSVFile.text.Split("\n");
-        {
-            string[] fields = lines[0].Split(',');
-            stage.tiles = new TileType[lines.Length,fields.Length];
-        }
-
+        stage.tiles = new TileType[lines.Length, lines[0].Split(',').Length];
         for (int i = 0 ; i < lines.Length ; i++)
         {
             if (string.IsNullOrWhiteSpace(lines[i]))
@@ -114,5 +111,7 @@ public class StageCreator : MonoBehaviour
                 stage.tiles[i,j] = (TileType)value;
             }
         }
+        Debug.Log("x" + lines.Length + " y " + lines[0].Split(',').Length);
+        Debug.Log("x" + stage.tiles.GetLength(0) + " y " + stage.tiles.GetLength(1));
     }
 }

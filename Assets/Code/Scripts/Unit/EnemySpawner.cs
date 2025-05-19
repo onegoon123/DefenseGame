@@ -118,11 +118,9 @@ public class EnemySpawner : MonoBehaviour
     {
 
     }
-
     private void WaveUpdate()
     {
         bool clearWave = true;  // 모든 적이 스폰하여 웨이브가 끝났다면 true가 유지된다
-
         foreach (SpawnData spawnData in currentWave.spawnDatas)
         {
             if (spawnData.count <= 0)
@@ -132,10 +130,12 @@ public class EnemySpawner : MonoBehaviour
             clearWave = false;
 
             int2 spawnPos = SpawnPoint[spawnData.point];
-            if (StageManager.instance.units[spawnPos.x, spawnPos.y] == null)
+            if (StageManager.instance.GetUnit(spawnPos) == null)
             {
+                Debug.Log(spawnPos + " 스폰됨");
                 // 유닛 생성
                 SpawnEnemy(spawnPos, spawnData.code);
+                spawnData.count--;
                 break;
             }
         }
@@ -152,11 +152,14 @@ public class EnemySpawner : MonoBehaviour
             }
         }
     }
+    static int c = 0;
 
     private void SpawnEnemy(int2 pos, int code)
     {
         Vector3 worldPos = StageManager.instance.GridToWorldPosition(pos);
-        Instantiate(enemies[code]);
+        GameObject newEnemy = Instantiate(enemies[code]);
+        newEnemy.name = "enemy" + c++;
+        newEnemy.GetComponent<PieceUnit>().Setting(pos);
     }
 
     private void WaveEnd()
