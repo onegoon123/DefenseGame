@@ -28,6 +28,7 @@ public class EnemyUnit : PieceUnit
     protected override void Update()
     {
         base.Update();
+        if (king == null) { return; }
         atkTimer -= Time.deltaTime;
         if (isMove) return;
         

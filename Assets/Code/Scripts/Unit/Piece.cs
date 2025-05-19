@@ -44,7 +44,6 @@ public class Piece
     private int pieceId = -1;            // id
     [SerializeField]
     private int level = 1;              // 레벨
-    //private int rank  = 0;            // 랭크(돌파)
 
     /// <summary> 캐릭터의 스텟입니다 </summary>
     public PieceStats stats { get; private set; }

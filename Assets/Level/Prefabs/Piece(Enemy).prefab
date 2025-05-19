@@ -143,6 +143,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2040ac2ad57150947ae6fac26351a61d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attack: {fileID: 0}
+  skill: {fileID: 0}
+  maxHP: 0
+  currentHP: 0
+  maxMP: 15
+  currentMP: 0
+  atkRange: 1
+  atk: 0
   gridPos:
     x: 0
     y: 0

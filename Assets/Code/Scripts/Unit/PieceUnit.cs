@@ -6,17 +6,22 @@ using UnityEngine;
 
 public abstract class PieceUnit : MonoBehaviour
 {
-    protected Piece piece;
     protected Animator animator;
-    protected List<Skill> skills = new List<Skill>();
+
+    public SkillBase attack;
+    public SkillBase skill;
+    public int maxHP;
+    public int currentHP;
+    public int maxMP;
+    public int currentMP;
+    public int atkRange;                        // 공격 사거리
+    public int atk;
 
     public int2 gridPos;
 
     /// <summary> 이 유닛이 플레이어면 true입니다 </summary>
     public bool isPlayer { get; private set; }
 
-    protected int hp = 999999999;
-    protected int atkRange = 1;                     // 공격 사거리
     protected bool canAttackDiagonally = false;     // 대각선 공격이 가능한지
     protected bool isMove = false;
     protected Vector3 moveStartPos;
@@ -34,10 +39,11 @@ public abstract class PieceUnit : MonoBehaviour
 
     public virtual void TakeDamage(int dmg)
     {
-        hp -= dmg;
-        if (hp <= 0)
+        currentHP -= dmg;
+        if (currentHP <= 0)
         {
-            StageManager.instance.SetUnit(gridPos, null);
+            StageManager.instance.ClearUnit(gridPos);
+            Debug.Log("사망");
             Destroy(gameObject);
         }
     }
@@ -46,37 +52,30 @@ public abstract class PieceUnit : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         isPlayer = this is PlayerUnit;      // 이 클래스가 PlayerUnit이거나 PlayerUnit을 상속받으면 isPlayer가 true
+
+        currentHP = maxHP;
     }
 
     protected virtual void Update()
     {
-        foreach (Skill skill in skills)
-        {
-            if (skill.CheckCondition(this))
-            {
-                skill.Activate(this);
-            }
-        }
-
         if (isMove)
         {
             MoveUpdate();
+            return;
         }
 
-        // 테스트용
-        if (Input.GetKeyDown(KeyCode.D))
+        if (attack == null) { return; }
+
+        if (attack.CanActivate(this))
         {
-            MoveGridPos(gridPos + new int2(1, 0));
+            attack.Activate(this);
         }
-        // 테스트용
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            MoveGridPos(gridPos + new int2(-1, 0));
-        }
+
+        //skill.CanActivate(this);
     }
 
     // ▶ 사거리 내 적 캐릭터를 모두 찾는다
-    protected List<PieceUnit> FindTargetsInRange()
+    public List<PieceUnit> FindTargetsInRange()
     {
         int maxTargets = (atkRange * 2 + 1) * (atkRange * 2 + 1) - 1;
         List<PieceUnit> targets = new List<PieceUnit>(maxTargets);
@@ -105,7 +104,7 @@ public abstract class PieceUnit : MonoBehaviour
     }
 
     // ▶ 사거리 내 가장 가까운 적을 찾는다
-    protected PieceUnit FindTargetInRange()
+    public PieceUnit FindTargetInRange()
     {
         int maxDistance = 9999;
         PieceUnit resultTarget = null;
@@ -141,17 +140,6 @@ public abstract class PieceUnit : MonoBehaviour
     private float EaseOutQuad(float progress)
     {
         return 1 - (1 - progress) * (1 - progress);
-    }
-
-    private float easeInOutQuint(float progress)
-    {
-        if (progress < 0.5) {
-            return 16 * math.pow(progress, 5);
-        }
-        else
-        {
-            return 1 - math.pow(-2 * progress + 2, 5) / 2;
-        }
     }
 
     private void MoveUpdate()
@@ -196,4 +184,8 @@ public abstract class PieceUnit : MonoBehaviour
     {
         transform.position = FindFirstObjectByType<StageManager>().GridToWorldPosition(gridPos);
     }
+
+
+    // 스텟 관련
+    public int GetAtk() { return atk; }
 }
