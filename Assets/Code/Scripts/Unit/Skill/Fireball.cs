@@ -19,9 +19,11 @@ public class Fireball : SkillBase
             target = unit.FindTargetInRange();
             if (target == null) { return; }
         }
+        unit.LookAtTarget(target);
+        unit.spriteAnimator.SetTrigger("Attack");
 
         // 투사체 생성
-        GameObject obj = Instantiate(projectilePrefab, unit.transform.position, Quaternion.identity);
+        GameObject obj = Instantiate(projectilePrefab, unit.projectileSpawnPoint.position, Quaternion.identity);
         var projectile = obj.GetComponent<FireballProjectile>();
         // 투사체 세팅 (타겟, 대미지, 속도)
         projectile.Init(target, (int)(unit.GetAtk() * damagePercent), projectileSpeed);

@@ -7,6 +7,7 @@ using UnityEngine;
 public abstract class PieceUnit : MonoBehaviour
 {
     protected Animator animator;
+    public Animator spriteAnimator;
 
     public SkillBase attack;
     public SkillBase skill;
@@ -16,8 +17,9 @@ public abstract class PieceUnit : MonoBehaviour
     public int currentMP;
     public int atkRange;                        // 공격 사거리
     public int atk;
-
     public int2 gridPos;
+    public float moveSpeed = 2.0f;
+    public Transform projectileSpawnPoint;
 
     /// <summary> 이 유닛이 플레이어면 true입니다 </summary>
     public bool isPlayer { get; private set; }
@@ -27,8 +29,6 @@ public abstract class PieceUnit : MonoBehaviour
     protected Vector3 moveStartPos;
     protected Vector3 moveTargetPos;
     private float moveTimer = 0;
-    [SerializeField]
-    protected float moveSpeed = 2.0f;
 
     public void Setting(int2 pos)
     {
@@ -74,6 +74,17 @@ public abstract class PieceUnit : MonoBehaviour
         //skill.CanActivate(this);
     }
 
+    public void LookAtTarget(PieceUnit unit)
+    {
+        if (unit.gridPos.x <= gridPos.x)
+        {
+            transform.localScale = Vector3.one;
+        }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+    }
     // ▶ 사거리 내 적 캐릭터를 모두 찾는다
     public List<PieceUnit> FindTargetsInRange()
     {
