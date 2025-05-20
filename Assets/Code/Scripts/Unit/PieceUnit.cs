@@ -83,8 +83,13 @@ public abstract class PieceUnit : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);
         }
     }
-    // ▶ 사거리 내 적 캐릭터를 모두 찾는다
+    // ▶ 사거리(스텟) 내 적 캐릭터를 모두 찾는다
     public List<PieceUnit> FindTargetsInRange()
+    {
+        return FindTargetsInRange(atkRange, diagonalAttack);
+    }
+    // ▶ 사거리(매개변수) 내 적 캐릭터를 모두 찾는다
+    public List<PieceUnit> FindTargetsInRange(int atkRange, bool diagonalAttack = false)
     {
         int maxTargets = (atkRange * 2 + 1) * (atkRange * 2 + 1) - 1;
         List<PieceUnit> targets = new List<PieceUnit>(maxTargets);
@@ -112,8 +117,14 @@ public abstract class PieceUnit : MonoBehaviour
         return targets;
     }
 
-    // ▶ 사거리 내 가장 가까운 적을 찾는다
+    // ▶ 사거리(스텟) 내 가장 가까운 적을 찾는다
     public PieceUnit FindTargetInRange()
+    {
+        return FindTargetInRange(atkRange, diagonalAttack);
+    }
+
+    // ▶ 사거리(인수) 내 가장 가까운 적을 찾는다
+    public PieceUnit FindTargetInRange(int atkRange, bool diagonalAttack = false)
     {
         int maxDistance = 9999;
         PieceUnit resultTarget = null;
@@ -145,6 +156,7 @@ public abstract class PieceUnit : MonoBehaviour
         }
         return resultTarget;
     }
+
 
     private float EaseOutQuad(float progress)
     {

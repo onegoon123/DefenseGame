@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 13997985642403561}
   - component: {fileID: 8710717033147303799}
   m_Layer: 6
-  m_Name: Piece(Enemy)
+  m_Name: Unit_Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   maxMP: 15
   currentMP: 0
   atkRange: 1
-  diagonalAttack: 1
+  diagonalAttack: 0
   atk: 5
   gridPos:
     x: 0
