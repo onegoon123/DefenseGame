@@ -11,7 +11,7 @@ public class CharacterList : MonoBehaviour
         {
             transform.GetChild(i).gameObject.SetActive(DataManager.instance.ContainsPiece(i));
             Image image = transform.GetChild(i).GetChild(0).GetComponent<Image>();
-            image.sprite = DataManager.instance.GetPieceData(i).icon;
+            image.sprite = DataManager.instance.GetPieceData(i).sprite;
         }
     }
 }

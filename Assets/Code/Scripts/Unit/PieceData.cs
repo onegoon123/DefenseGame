@@ -13,7 +13,7 @@ public class PieceData
     public PieceSubClass pieceSubClass  = 0;
     public int autoAttack = 0;
     public int skill = 0;
-    public Sprite icon;
+    public Sprite sprite;
 
     public List<PieceStats> pieceStats = new List<PieceStats>();
 }

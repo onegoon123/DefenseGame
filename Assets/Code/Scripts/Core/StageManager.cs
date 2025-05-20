@@ -43,6 +43,9 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private TileType[] tiles = new TileType[10];
 
+    [SerializeField]
+    private GameObject[] unitPrefabs = new GameObject[10];
+
     // 가상의 평면 충돌체
     private Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
 
@@ -89,6 +92,18 @@ public class StageManager : MonoBehaviour
         SceneLoader.instance.LoadScene("LobbyScene");
     }
     
+    public void SpawnUnit(Piece piece, int2 pos)
+    {
+        int id = piece.GetId();
+
+        if (unitPrefabs.Length < id) return;
+
+        GameObject obj = Instantiate(unitPrefabs[id]);
+        PlayerUnit unit = obj.GetComponent<PlayerUnit>();
+        unit.SetPiece(piece);
+        unit.Setting(pos);
+    }
+
     private int GetStageIndex(int2 pos) { return pos.y * stageSize.x + pos.x; }
     public PieceUnit GetUnit(int2 pos)
     {
@@ -139,5 +154,19 @@ public class StageManager : MonoBehaviour
             new int2(4, 2),
             new int2(5, 2)
         };
+    }
+
+    public int2 GetMouseGridPos()
+    {
+        int2 result = new int2();
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        
+        if (groundPlane.Raycast(ray, out float enter))
+        {
+            Vector3 hitPoint = ray.GetPoint(enter);
+            result = WorldToGridPosition(hitPoint);
+        }
+
+        return result;
     }
 }

@@ -240,7 +240,7 @@ public class DataManager : MonoBehaviour
                 pieceSubClass = (PieceSubClass)int.Parse(fields[3]),
                 autoAttack = int.Parse(fields[4]),
                 skill = int.Parse(fields[5]),
-                icon = Resources.Load<Sprite>(fields[6].Trim())
+                sprite = Resources.Load<Sprite>(fields[6].Trim())
             };
             piece.pieceStats = GetPieceStatsData(fields[7]);
 

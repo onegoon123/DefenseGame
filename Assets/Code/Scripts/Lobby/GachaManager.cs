@@ -22,7 +22,7 @@ public class GachaManager : MonoBehaviour
     {
         int r = Random.Range(0, gachaMax);
         DataManager.instance.AddPiece(r);
-        images[0].sprite = DataManager.instance.GetPieceData(r).icon;
+        images[0].sprite = DataManager.instance.GetPieceData(r).sprite;
         animator.SetTrigger("Gacha");
     }
 
@@ -33,7 +33,7 @@ public class GachaManager : MonoBehaviour
             // 아직 별도 확률 없이 균등합니다
             int r = Random.Range(0, gachaMax);
             DataManager.instance.AddPiece(r);
-            images[i].sprite = DataManager.instance.GetPieceData(r).icon;
+            images[i].sprite = DataManager.instance.GetPieceData(r).sprite;
         }
         animator.SetTrigger("Gacha10");
     }

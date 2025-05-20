@@ -9,8 +9,10 @@ public abstract class PieceUnit : MonoBehaviour
     protected Animator animator;
     public Animator spriteAnimator;
 
-    public SkillBase attack;
-    public SkillBase skill;
+    public SkillBase attackData;
+    public SkillBase skillData;
+    private SkillBase attack;
+    private SkillBase skill;
     public int maxHP;
     public int currentHP;
     public int maxMP;
@@ -48,12 +50,22 @@ public abstract class PieceUnit : MonoBehaviour
         }
     }
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
         isPlayer = this is PlayerUnit;      // 이 클래스가 PlayerUnit이거나 PlayerUnit을 상속받으면 isPlayer가 true
 
         currentHP = maxHP;
+
+        if (attackData)
+        {
+            attack = Instantiate(attackData);
+        }
+
+        if (skillData)
+        {
+            skill =  Instantiate(skillData);
+        }
     }
 
     protected virtual void Update()
@@ -63,6 +75,8 @@ public abstract class PieceUnit : MonoBehaviour
             MoveUpdate();
             return;
         }
+
+        if (!attack) return;
 
         if (attack.CanActivate(this))
         {

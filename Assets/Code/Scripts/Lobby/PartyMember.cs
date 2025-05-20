@@ -25,7 +25,7 @@ public class PartyMember : MonoBehaviour
     {
         // 멤버로 세팅된 id가 들어옵니다
         pieceId = id;
-        image.sprite = DataManager.instance.GetPieceData(id).icon;
+        image.sprite = DataManager.instance.GetPieceData(id).sprite;
     }
 
     public void OnClick()

@@ -16,9 +16,8 @@ public class EnemyUnit : PieceUnit
     private float moveDelay = 0.5f;
     private float moveDelayTimer = 0f;
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
         king = StageManager.instance.king;
         //InvokeRepeating(nameof(UpdatePath), 0f, 0.1f);
         moveDelayTimer = moveDelay;

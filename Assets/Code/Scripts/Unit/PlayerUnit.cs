@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class PlayerUnit : PieceUnit
 {
-    protected override void Start()
+    public void SetPiece(Piece piece)
     {
-        base.Start();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-
+        PieceStats stats =  piece.GetStats();
+        maxHP = stats.hp;
+        atk = stats.atk;
     }
 }
