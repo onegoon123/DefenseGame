@@ -43,6 +43,7 @@ public class EnemySpawner : MonoBehaviour
     private int waveIndex = 0;
     private float waitTime = 0;
     private float spawnWaitTimer = 0;
+    private bool isClear = false;
 
 
     private void ChangeState(EnemySpawnerState state)
@@ -119,7 +120,7 @@ public class EnemySpawner : MonoBehaviour
     // Wave State
     private void WaveStart()
     {
-
+        Debug.Log("새로운 웨이브");
     }
     private void WaveUpdate()
     {
@@ -177,12 +178,16 @@ public class EnemySpawner : MonoBehaviour
 
     private void ClearStart()
     {
-        Debug.Log("스폰 끝");
+        Debug.Log("스폰 끝!!");
     }
 
     private void ClearUpdate()
     {
-
+        if (isClear == false && FindFirstObjectByType<EnemyUnit>() == null)
+        {
+            isClear = true;
+            StageManager.instance.ClearStage();
+        }
     }
 
     private void ClearEnd()

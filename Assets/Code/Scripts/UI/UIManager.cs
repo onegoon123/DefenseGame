@@ -15,7 +15,6 @@ public class UIManager : MonoBehaviour
             return;
         }
         instance = this;
-        DontDestroyOnLoad(this.gameObject);
     }
 
 }

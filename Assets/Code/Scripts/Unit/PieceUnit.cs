@@ -45,7 +45,6 @@ public abstract class PieceUnit : MonoBehaviour
         if (currentHP <= 0)
         {
             StageManager.instance.ClearUnit(gridPos);
-            Debug.Log("»ç¸Á");
             Destroy(gameObject);
         }
     }
