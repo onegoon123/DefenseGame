@@ -44,7 +44,8 @@ public class PocketItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         if (StageManager.instance.IsValidTile(gridPos))
         {
-            if (StageManager.instance.GetUnit(gridPos) == null)
+            // 걷기 가능 타일만 배치 가능 (임시)
+            if (StageManager.instance.GetUnit(gridPos) == null && StageManager.instance.GetTileType(gridPos)==TileType.Walkable)
             {
                 previewObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 8f);
                 return;

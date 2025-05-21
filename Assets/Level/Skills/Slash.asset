@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: "\uBCA0\uAE30"
   manaCost: -1
-  cooldown: 10
+  cooldown: 2
   effectPrefab: {fileID: 2003013108078570890, guid: be3ea94401eb3f148835a7668abcdf30, type: 3}
   damagePercent: 1
