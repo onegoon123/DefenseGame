@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class PieceUnit : MonoBehaviour
 {
     protected Animator animator;
+    public SpriteRenderer spriteRenderer;
     public Animator spriteAnimator;
-
+    public Slider hpSlider;
     public SkillBase attackData;
     public SkillBase skillData;
     private SkillBase attack;
@@ -42,6 +44,8 @@ public abstract class PieceUnit : MonoBehaviour
     public virtual void TakeDamage(int dmg)
     {
         currentHP -= dmg;
+        hpSlider.gameObject.SetActive(true);
+        hpSlider.value = (float)currentHP / maxHP;
         if (currentHP <= 0)
         {
             StageManager.instance.ClearUnit(gridPos);
@@ -89,11 +93,23 @@ public abstract class PieceUnit : MonoBehaviour
     {
         if (unit.gridPos.x <= gridPos.x)
         {
-            transform.localScale = Vector3.one;
+            spriteRenderer.flipX = false;
+            if (projectileSpawnPoint != null)
+            {
+                Vector3 pos = projectileSpawnPoint.localPosition;
+                pos.x = -math.abs(pos.x);
+                projectileSpawnPoint.localPosition = pos;
+            }
         }
         else
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            spriteRenderer.flipX = true;
+            if (projectileSpawnPoint != null)
+            {
+                Vector3 pos = projectileSpawnPoint.localPosition;
+                pos.x = math.abs(pos.x);
+                projectileSpawnPoint.localPosition = pos;
+            }
         }
     }
     // ▶ 사거리(스텟) 내 적 캐릭터를 모두 찾는다
