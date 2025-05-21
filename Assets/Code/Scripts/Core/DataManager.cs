@@ -25,6 +25,9 @@ public class SaveData
     [SerializeField]
     public List<int> clearStageList = new List<int>(4); // 스테이지 클리어 진도
 
+    [SerializeField]
+    public List<int> membersId = new List<int>(9);     // 현재 편성한 멤버들 id
+
     public void ClearData()
     {
         level = 1;
@@ -197,6 +200,14 @@ public class DataManager : MonoBehaviour
     public void SetClearStage(int land, int stage)
     {
         data.clearStageList[land] = stage;
+    }
+    public void SetMembers(List<int> members)
+    {
+        data.membersId = members;
+    }
+    public List<int> GetMembers()
+    {
+        return data.membersId;
     }
 
     public int GetGold()

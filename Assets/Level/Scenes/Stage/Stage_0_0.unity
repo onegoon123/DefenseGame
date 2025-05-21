@@ -2157,7 +2157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landNum: 0
-  stageNum: 0
+  stageNum: 1
   kingObject: {fileID: 3083476022155111009, guid: 6b6ff63d72fcfc241ab7c87cbe83e798, type: 3}
   kingPos:
     x: 5

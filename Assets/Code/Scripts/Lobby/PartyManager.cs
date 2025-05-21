@@ -31,6 +31,11 @@ public class PartyManager : MonoBehaviour
     [SerializeField]
     private List<PartyMember> partyMembers;
 
+    private void Awake()
+    {
+        membersId = DataManager.instance.GetMembers();
+    }
+
     private void OnEnable()
     {
         list.Setting();
@@ -38,6 +43,7 @@ public class PartyManager : MonoBehaviour
         {
             list.SetCharacterActive(member, false);
         }
+        UIUpdate();
     }
 
     // 파티 멤버에 memberId를 추가
@@ -108,6 +114,7 @@ public class PartyManager : MonoBehaviour
     public void PartySetting()
     {
         // 파티멤버 저장
+        DataManager.instance.SetMembers(membersId);
         GameManager.instance.pieces.Clear();
         foreach (int id in membersId)
         {
