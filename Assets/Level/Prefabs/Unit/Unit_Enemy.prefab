@@ -177,7 +177,7 @@ MonoBehaviour:
   currentMP: 0
   atkRange: 1
   diagonalAttack: 0
-  atk: 20
+  atk: 5
   gridPos:
     x: 0
     y: 0

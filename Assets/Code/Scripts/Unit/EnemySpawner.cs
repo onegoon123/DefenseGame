@@ -186,13 +186,18 @@ public class EnemySpawner : MonoBehaviour
         if (isClear == false && FindFirstObjectByType<EnemyUnit>() == null)
         {
             isClear = true;
-            StageManager.instance.ClearStage();
+            Invoke(nameof(EndStage), 2.0f);
         }
     }
 
     private void ClearEnd()
     {
 
+    }
+
+    private void EndStage()
+    {
+        StageManager.instance.ClearStage();
     }
 
     [ContextMenu("Load Wave Data")]

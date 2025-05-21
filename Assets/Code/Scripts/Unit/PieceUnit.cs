@@ -50,7 +50,14 @@ public abstract class PieceUnit : MonoBehaviour
         if (currentHP <= 0)
         {
             StageManager.instance.ClearUnit(gridPos);
-            Destroy(gameObject);
+            animator.SetTrigger("Die");
+            Destroy(gameObject, 1.0f);
+            hpSlider.gameObject.SetActive(false);
+            Destroy(this);
+        }
+        else
+        {
+            animator.SetTrigger("Damage");
         }
     }
 

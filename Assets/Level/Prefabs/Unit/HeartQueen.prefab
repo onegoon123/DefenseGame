@@ -131,6 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8500969003468589583}
   - component: {fileID: 947987846077228968}
+  - component: {fileID: 8897648838129296458}
   m_Layer: 0
   m_Name: HeartQueen
   m_TagString: King
@@ -171,7 +172,7 @@ MonoBehaviour:
   hpSlider: {fileID: 861221199252106539}
   attackData: {fileID: 11400000, guid: 8063e4dec9f239f43a94a15e46af4f17, type: 2}
   skillData: {fileID: 0}
-  maxHP: 50
+  maxHP: 200
   currentHP: 0
   maxMP: 0
   currentMP: 0
@@ -183,6 +184,27 @@ MonoBehaviour:
     y: 0
   projectileSpawnPoint: {fileID: 5172412359396004146}
   moveSpeed: 4
+--- !u!95 &8897648838129296458
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3083476022155111009}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 05bc0a9e756917440a86a9fd26670f98, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3106872585593012605
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,6 +251,10 @@ PrefabInstance:
     - target: {fileID: 4861340105265331231, guid: f9d2dcfc591e6ea439b309da298ca926, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246532813063810096, guid: f9d2dcfc591e6ea439b309da298ca926, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8619231433749035786, guid: f9d2dcfc591e6ea439b309da298ca926, type: 3}
       propertyPath: m_Pivot.x

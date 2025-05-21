@@ -88,7 +88,6 @@ public class StageManager : MonoBehaviour
         {
             DataManager.instance.SetClearStage(landNum, stageNum);
         }
-
         SceneLoader.instance.LoadScene("LobbyScene");
     }
     
