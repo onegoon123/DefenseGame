@@ -4,6 +4,7 @@ using Unity.Mathematics;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public abstract class PieceUnit : MonoBehaviour
 {
@@ -146,6 +147,7 @@ public abstract class PieceUnit : MonoBehaviour
         return targets;
     }
 
+    // 박스 범위안에 있는 적들을 리턴합니다
     public List<PieceUnit> FindTargetsInBox(int2 boxScale, int2 boxPos)
     {
         List<PieceUnit> targets = new List<PieceUnit>(boxScale.x * boxScale.y);
@@ -154,7 +156,7 @@ public abstract class PieceUnit : MonoBehaviour
         {
             for (int y = -boxScale.y; y <= boxScale.y; y++)
             {
-                int2 targetPos = boxPos + new int2(x, y);
+                int2 targetPos = gridPos + boxPos + new int2(x, y);
 
                 // 유효한 타일인지 확인
                 if (!StageManager.instance.IsValidTile(targetPos)) continue;
@@ -210,6 +212,81 @@ public abstract class PieceUnit : MonoBehaviour
         return resultTarget;
     }
 
+    // 박스 범위안에 있는 적들 중 가장 가까운 적을 리턴합니다
+    public PieceUnit FindTargetInBox(int2 boxScale, int2 boxPos)
+    {
+        int maxDistance = 9999;
+        PieceUnit resultTarget = null;
+
+        for (int x = -boxScale.x; x <= boxScale.x; x++)
+        {
+            for (int y = -boxScale.y; y <= boxScale.y; y++)
+            {
+                int2 targetPos = gridPos + boxPos + new int2(x, y);
+
+                // 유효한 타일인지 확인
+                if (!StageManager.instance.IsValidTile(targetPos)) continue;
+
+                PieceUnit target = StageManager.instance.GetUnit(targetPos);
+                // 유효한 적인지 확인
+                if (target != null && target.isPlayer != this.isPlayer)
+                {
+                    int distance = math.abs(target.gridPos.x - gridPos.x) + math.abs(target.gridPos.y - gridPos.y);
+                    if (distance < maxDistance)
+                    {
+                        resultTarget = target;
+                        maxDistance = distance;
+                    }
+                }
+            }
+        }
+        return resultTarget;
+    }
+
+    // 타깃이 박스 범위안에 있는지 여부를 리턴합니다
+    public bool IsTargetInBox(PieceUnit target, int2 boxScale, int2 boxPos)
+    {
+        for (int x = -boxScale.x; x <= boxScale.x; x++)
+        {
+            for (int y = -boxScale.y; y <= boxScale.y; y++)
+            {
+                int2 targetPos = gridPos + boxPos + new int2(x, y);
+                if (target.gridPos.Equals(targetPos))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // 타겟이 공격 범위안에 있는지 여부를 리턴합니다
+    public bool IsTargetInRange(PieceUnit target)
+    {
+        return IsTargetInRange(target, atkRange, diagonalAttack);
+    }
+    // 타겟이 공격 범위안에 있는지 여부를 리턴합니다
+    public bool IsTargetInRange(PieceUnit target, int atkRange, bool diagonalAttack = false)
+    {
+        for (int x = -atkRange; x <= atkRange; x++)
+        {
+            for (int y = -atkRange; y <= atkRange; y++)
+            {
+                int2 targetPos = gridPos + new int2(x, y);
+                if (target.gridPos.Equals(targetPos))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // 다른 유닛과의 거리를 리턴합니다
+    public int GetDistance(PieceUnit other)
+    {
+        return math.abs(gridPos.x - other.gridPos.x) + math.abs(gridPos.y - other.gridPos.y);
+    }
 
     private float EaseOutQuad(float progress)
     {

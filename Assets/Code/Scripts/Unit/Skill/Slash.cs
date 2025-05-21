@@ -17,6 +17,12 @@ public class Slash : SkillBase
             target = unit.FindTargetInRange();
             if (target == null) { return; }
         }
+        else if (unit.IsTargetInRange(target) == false)
+        {
+            target = null;
+            Activate(unit);
+            return;
+        }
 
         // 애니메이션
         //unit.spriteAnimator.SetTrigger("Attack");
