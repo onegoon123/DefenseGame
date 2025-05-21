@@ -13,6 +13,8 @@ using UnityEngine.UI;
 public class PartyManager : MonoBehaviour
 {
 
+    public CharacterList list;
+
     // 편성가능 최대 수
     private Dictionary<PieceMainClass, int> classLimits = new Dictionary<PieceMainClass, int>
     {
@@ -44,13 +46,20 @@ public class PartyManager : MonoBehaviour
 
         // 클래스 가득참
         if (count >= classLimits[memberClass])
+        {
+            list.SetCharacterActive(memberId, true);
             return;
+        }
 
         // 중복
         if (membersId.Contains(memberId))
+        {
+            list.SetCharacterActive(memberId, true);
             return;
+        }
 
         membersId.Add(memberId);
+        list.SetCharacterActive(memberId, false);
         UIUpdate();
     }
 
@@ -58,6 +67,7 @@ public class PartyManager : MonoBehaviour
     public void RemoveMember(int memberId)
     {
         membersId.Remove(memberId);
+        list.SetCharacterActive(memberId, true);
         UIUpdate();
     }
 
