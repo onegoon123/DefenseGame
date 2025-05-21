@@ -142,7 +142,6 @@ public class StageManager : MonoBehaviour
     }
     public void SetTileType(int2 pos, TileType type)
     {
-        Debug.Log(GetStageIndex(pos));
         tiles[GetStageIndex(pos)] = type;
     }
     public List<int2> GetBlockedTiles()

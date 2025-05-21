@@ -146,6 +146,30 @@ public abstract class PieceUnit : MonoBehaviour
         return targets;
     }
 
+    public List<PieceUnit> FindTargetsInBox(int2 boxScale, int2 boxPos)
+    {
+        List<PieceUnit> targets = new List<PieceUnit>(boxScale.x * boxScale.y);
+
+        for (int x = -boxScale.x; x <= boxScale.x; x++)
+        {
+            for (int y = -boxScale.y; y <= boxScale.y; y++)
+            {
+                int2 targetPos = boxPos + new int2(x, y);
+
+                // 유효한 타일인지 확인
+                if (!StageManager.instance.IsValidTile(targetPos)) continue;
+
+                PieceUnit target = StageManager.instance.GetUnit(targetPos);
+                // 유효한 적인지 확인
+                if (target != null && target.isPlayer != this.isPlayer)
+                {
+                    targets.Add(target);
+                }
+            }
+        }
+        return targets;
+    }
+
     // ▶ 사거리(스텟) 내 가장 가까운 적을 찾는다
     public PieceUnit FindTargetInRange()
     {
