@@ -31,6 +31,15 @@ public class PartyManager : MonoBehaviour
     [SerializeField]
     private List<PartyMember> partyMembers;
 
+    private void OnEnable()
+    {
+        list.Setting();
+        foreach (var member in membersId)
+        {
+            list.SetCharacterActive(member, false);
+        }
+    }
+
     // 파티 멤버에 memberId를 추가
     public void AddMember(int memberId)
     {

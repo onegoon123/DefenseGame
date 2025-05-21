@@ -17,7 +17,7 @@ public class CharacterList : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    public void Setting()
     {
         for (int i = 0 ; i < transform.childCount ; i++)
         {

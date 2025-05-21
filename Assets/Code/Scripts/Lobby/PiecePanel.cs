@@ -10,6 +10,7 @@ public class PiecePanel : MonoBehaviour
     private Piece piece;
     private int LevelUpMoney;
 
+    public Image characterImage;
     public TMP_Text nameText;
     public TMP_Text lvText;
     public TMP_Text hpText;
@@ -26,6 +27,7 @@ public class PiecePanel : MonoBehaviour
         piece = DataManager.instance.GetPiece(id);
         SetPieceInformation();
         skillInfo.SetPieceId(id);
+        characterImage.sprite = piece.GetPieceData().sprite;
     }
 
     public void LevelUp()
