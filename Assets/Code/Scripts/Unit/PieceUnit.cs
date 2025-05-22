@@ -49,7 +49,7 @@ public abstract class PieceUnit : MonoBehaviour
         hpSlider.value = (float)currentHP / maxHP;
         if (currentHP <= 0)
         {
-            StageManager.instance.ClearUnit(gridPos);
+            StageManager.instance.RemoveUnit(this);
             animator.SetTrigger("Die");
             Destroy(gameObject, 1.0f);
             hpSlider.gameObject.SetActive(false);
@@ -143,11 +143,18 @@ public abstract class PieceUnit : MonoBehaviour
                 // 유효한 타일인지 확인
                 if (!StageManager.instance.IsValidTile(targetPos)) continue;
 
-                PieceUnit target = StageManager.instance.GetUnit(targetPos);
-                // 유효한 적인지 확인
-                if (target != null && target.isPlayer != this.isPlayer)
+
+                if (this.isPlayer)
                 {
-                    targets.Add(target);
+                    List<EnemyUnit> units = StageManager.instance.GetEnemies(targetPos);
+                    if (0 <units.Count)
+                        targets.AddRange(units);
+                }
+                else
+                {
+                    PlayerUnit unit = StageManager.instance.GetPlayer(targetPos);
+                    if (unit != null)
+                        targets.Add(unit);
                 }
             }
         }
@@ -159,20 +166,27 @@ public abstract class PieceUnit : MonoBehaviour
     {
         List<PieceUnit> targets = new List<PieceUnit>(boxScale.x * boxScale.y);
 
-        for (int x = -boxScale.x; x <= boxScale.x; x++)
+        for (int x = 0; x <= boxScale.x; x++)
         {
-            for (int y = -boxScale.y; y <= boxScale.y; y++)
+            for (int y = 0; y <= boxScale.y; y++)
             {
+                // 현재 내 위치 + 박스 위치 기준 우상단 박스
                 int2 targetPos = gridPos + boxPos + new int2(x, y);
 
                 // 유효한 타일인지 확인
                 if (!StageManager.instance.IsValidTile(targetPos)) continue;
 
-                PieceUnit target = StageManager.instance.GetUnit(targetPos);
-                // 유효한 적인지 확인
-                if (target != null && target.isPlayer != this.isPlayer)
+                if (this.isPlayer)
                 {
-                    targets.Add(target);
+                    List<EnemyUnit> units = StageManager.instance.GetEnemies(targetPos);
+                    if (0 < units.Count)
+                        targets.AddRange(units);
+                }
+                else
+                {
+                    PlayerUnit unit = StageManager.instance.GetPlayer(targetPos);
+                    if (unit != null)
+                        targets.Add(unit);
                 }
             }
         }
@@ -203,9 +217,20 @@ public abstract class PieceUnit : MonoBehaviour
                 // 유효한 타일인지 확인
                 if (!StageManager.instance.IsValidTile(targetPos)) continue;
 
-                PieceUnit target = StageManager.instance.GetUnit(targetPos);
+                PieceUnit target = null;
+
+                if (this.isPlayer)
+                {
+                    if (0 < StageManager.instance.GetEnemies(targetPos).Count)
+                        target = StageManager.instance.GetEnemies(targetPos)[0];
+                }
+                else
+                {
+                    target = StageManager.instance.GetPlayer(targetPos);
+                }
+
                 // 유효한 적인지 확인
-                if (target != null && target.isPlayer != this.isPlayer)
+                if (target != null)
                 {
                     int distance = math.abs(target.gridPos.x - gridPos.x) + math.abs(target.gridPos.y - gridPos.y);
                     if (distance < maxDistance)
@@ -225,18 +250,30 @@ public abstract class PieceUnit : MonoBehaviour
         int maxDistance = 9999;
         PieceUnit resultTarget = null;
 
-        for (int x = -boxScale.x; x <= boxScale.x; x++)
+        for (int x = 0; x <= boxScale.x; x++)
         {
-            for (int y = -boxScale.y; y <= boxScale.y; y++)
+            for (int y = 0; y <= boxScale.y; y++)
             {
+                // 현재 내 위치 + 박스 위치 기준 우상단 박스
                 int2 targetPos = gridPos + boxPos + new int2(x, y);
 
                 // 유효한 타일인지 확인
                 if (!StageManager.instance.IsValidTile(targetPos)) continue;
 
-                PieceUnit target = StageManager.instance.GetUnit(targetPos);
+                PieceUnit target = null;
+
+                if (this.isPlayer)
+                {
+                    if (0 < StageManager.instance.GetEnemies(targetPos).Count)
+                        target = StageManager.instance.GetEnemies(targetPos)[0];
+                }
+                else
+                {
+                    target = StageManager.instance.GetPlayer(targetPos);
+                }
+
                 // 유효한 적인지 확인
-                if (target != null && target.isPlayer != this.isPlayer)
+                if (target != null)
                 {
                     int distance = math.abs(target.gridPos.x - gridPos.x) + math.abs(target.gridPos.y - gridPos.y);
                     if (distance < maxDistance)
@@ -253,10 +290,11 @@ public abstract class PieceUnit : MonoBehaviour
     // 타깃이 박스 범위안에 있는지 여부를 리턴합니다
     public bool IsTargetInBox(PieceUnit target, int2 boxScale, int2 boxPos)
     {
-        for (int x = -boxScale.x; x <= boxScale.x; x++)
+        for (int x = 0; x <= boxScale.x; x++)
         {
-            for (int y = -boxScale.y; y <= boxScale.y; y++)
+            for (int y = 0; y <= boxScale.y; y++)
             {
+                // 현재 내 위치 + 박스 위치 기준 우상단 박스
                 int2 targetPos = gridPos + boxPos + new int2(x, y);
                 if (target.gridPos.Equals(targetPos))
                 {
@@ -325,14 +363,14 @@ public abstract class PieceUnit : MonoBehaviour
 
     protected void SetGridPos(int2 pos)
     {
-        StageManager.instance.ClearUnit(gridPos);
+        StageManager.instance.RemoveUnit(this);
         gridPos = pos;
         StageManager.instance.SetUnit(this);
     }
 
     public void AddGridPos(int2 pos)
     {
-        StageManager.instance.ClearUnit(gridPos);
+        StageManager.instance.RemoveUnit(this);
         gridPos += pos;
         StageManager.instance.SetUnit(this);
     }

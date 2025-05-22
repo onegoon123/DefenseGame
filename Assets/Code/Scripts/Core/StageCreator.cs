@@ -97,7 +97,6 @@ public class StageCreator : MonoBehaviour
     {
         // CSV 파일을 읽어 타일 생성
         string[] lines = tileCSVFile.text.Split("\n");
-        //stageManager.tiles = new TileType[lines.Length, lines[0].Split(',').Length];
         for (int y = 0 ; y < lines.Length ; y++)
         {
             if (string.IsNullOrWhiteSpace(lines[y]))

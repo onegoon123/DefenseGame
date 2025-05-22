@@ -45,7 +45,7 @@ public class PocketItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         if (StageManager.instance.IsValidTile(gridPos))
         {
             // 걷기 가능 타일만 배치 가능 (임시)
-            if (StageManager.instance.GetUnit(gridPos) == null && StageManager.instance.GetTileType(gridPos)==TileType.Walkable)
+            if (StageManager.instance.GetPlayer(gridPos) == null && StageManager.instance.GetTileType(gridPos)==TileType.Ground)
             {
                 previewObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 8f);
                 return;
@@ -63,9 +63,9 @@ public class PocketItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         int2 gridPos = StageManager.instance.GetMouseGridPos();
 
         if (StageManager.instance.IsValidTile(gridPos) == false) return;
-        if (StageManager.instance.GetUnit(gridPos) != null) return;
+        if (StageManager.instance.GetPlayer(gridPos) != null) return;
         // 일단 임시로 보행가능 타일에만 한정
-        if (StageManager.instance.GetTileType(gridPos) != TileType.Walkable) return;
+        if (StageManager.instance.GetTileType(gridPos) != TileType.Ground) return;
 
         StageManager.instance.SpawnUnit(piece, gridPos);
         piece = null;

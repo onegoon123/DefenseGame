@@ -69,12 +69,6 @@ public class EnemyUnit : PieceUnit
             }
             return;
         }
-        if (StageManager.instance.GetUnit(path[pathIndex + 1]) != null)
-        {
-            UpdatePath();
-            FollowPath();
-            return;
-        }
 
         LookAtTarget(king);
         moveDelayTimer = moveDelay;
@@ -120,9 +114,8 @@ public class EnemyUnit : PieceUnit
 
                 // 유효한 타일인가?
                 if (StageManager.instance.IsValidTile(neighbor) == false) continue;
-                // 이동할 타일에 유닛이 있거나 Walkable 타일이 아니면 continue
-                if (StageManager.instance.GetUnit(neighbor) != null) continue;
-                if (StageManager.instance.GetTileType(neighbor) != TileType.Walkable) continue;
+                // 이동할 타일이 Ground 타일이 아니면 continue
+                if (StageManager.instance.GetTileType(neighbor) != TileType.Ground) continue;
 
                 int tentativeG = gScore[current] + 1;
                 if (!gScore.ContainsKey(neighbor) || tentativeG < gScore[neighbor])

@@ -141,12 +141,9 @@ public class EnemySpawner : MonoBehaviour
             clearWave = false;
 
             int2 spawnPos = SpawnPoint[spawnData.point];
-            if (StageManager.instance.GetUnit(spawnPos) == null)
-            {
                 // À¯´Ö »ý¼º
-                SpawnEnemy(spawnPos, spawnData.code);
-                spawnData.count--;
-            }
+            SpawnEnemy(spawnPos, spawnData.code);
+            spawnData.count--;
         }
         
         if (clearWave)

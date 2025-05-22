@@ -8,10 +8,17 @@ using UnityEngine;
 [Serializable]
 public enum TileType
 {
-    None,
-    Walkable,
-    Sea,
-    Wall,
+    None = 0,   // 이동 불가
+    Ground = 1, // 이동 가능
+    Sea = 2,    // 물
+}
+
+[Serializable]
+public class Tile
+{
+    public TileType type = TileType.None;
+    public List<EnemyUnit> enemies = new List<EnemyUnit>(5);
+    public PlayerUnit player = null;
 }
 
 public class StageManager : MonoBehaviour
@@ -38,19 +45,13 @@ public class StageManager : MonoBehaviour
     public int2 stageSize;
 
     [SerializeField]
-    private PieceUnit[] units = new PieceUnit[10];
-
-    [SerializeField]
-    private TileType[] tiles = new TileType[10];
+    private Tile[] tiles = new Tile[77];
 
     [SerializeField]
     private GameObject[] unitPrefabs = new GameObject[10];
 
-    // 가상의 평면 충돌체
+    // 평면 충돌체
     private Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-
-    // 이미 유닛이 설치된 위치 저장용
-    private HashSet<int2> occupiedTiles = new HashSet<int2>();
 
     void Awake()
     {
@@ -103,31 +104,53 @@ public class StageManager : MonoBehaviour
         unit.Setting(pos);
     }
 
-    private int GetStageIndex(int2 pos) { return pos.y * stageSize.x + pos.x; }
-    public PieceUnit GetUnit(int2 pos)
-    {
-        return units[GetStageIndex(pos)];
-    }
+    private int GetTileIndex(int2 pos) { return pos.y * stageSize.x + pos.x; }
 
+    public PlayerUnit GetPlayer(int2 pos)
+    {
+        return tiles[GetTileIndex(pos)].player;
+    }
+    public List<EnemyUnit> GetEnemies(int2 pos)
+    {
+        return tiles[GetTileIndex(pos)].enemies;
+    }
     public void SetUnit(PieceUnit unit)
     {
         SetUnit(unit.gridPos, unit);
     }
     public void SetUnit(int2 pos, PieceUnit unit)
     {
-        PieceUnit findUnit = units[GetStageIndex(pos)];
-        if (findUnit == null)
+        if (unit is PlayerUnit)
         {
-            units[GetStageIndex(pos)] = unit;
-            return;
+            PlayerUnit findUnit = tiles[GetTileIndex(pos)].player;
+
+            if (findUnit == null)
+                tiles[GetTileIndex(pos)].player = (PlayerUnit)unit;
+            else
+                Debug.Log(pos + " 해당 위치에 이미 플레이어 유닛이 있습니다.");
+
         }
-        Debug.Log(findUnit.gameObject.name + " 이미 있어요");
-    }
-    public void ClearUnit(int2 pos)
-    {
-        units[GetStageIndex(pos)] = null;
+        else if (unit is EnemyUnit)
+        {
+            tiles[GetTileIndex(pos)].enemies.Add((EnemyUnit)unit);
+        }
     }
 
+    public void RemoveUnit(PieceUnit unit) { RemoveUnit(unit.gridPos, unit); }
+    public void RemoveUnit(int2 pos, PieceUnit unit)
+    {
+        if (unit is PlayerUnit)
+        {
+            if (tiles[GetTileIndex(pos)].player == unit)
+            {
+                tiles[GetTileIndex(pos)].player = null;
+            }
+        }
+        else if (unit is EnemyUnit)
+        {
+            tiles[GetTileIndex(pos)].enemies.Remove((EnemyUnit)unit);
+        }
+    }
     public bool IsValidTile(int2 pos)
     {
         return pos.x >= 0 && pos.y >= 0
@@ -137,11 +160,11 @@ public class StageManager : MonoBehaviour
 
     public TileType GetTileType(int2 pos)
     {
-        return tiles[GetStageIndex(pos)];
+        return tiles[GetTileIndex(pos)].type;
     }
     public void SetTileType(int2 pos, TileType type)
     {
-        tiles[GetStageIndex(pos)] = type;
+        tiles[GetTileIndex(pos)].type = type;
     }
     public List<int2> GetBlockedTiles()
     {
