@@ -7,6 +7,7 @@ public abstract class StatusEffectBase : ScriptableObject
 {
     public string effectName;   // 상태이상 이름
     public float duration;      // 지속시간
+    public Sprite icon;         // 아이콘
 
     // 상태이상이 시작될 때 호출
     public abstract void OnStart(PieceUnit unit);

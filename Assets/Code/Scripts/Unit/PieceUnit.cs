@@ -16,7 +16,7 @@ public abstract class PieceUnit : MonoBehaviour
     public Animator animator;               // 공용 애니메이션 (이동, 피격, 죽음)
     public SpriteRenderer spriteRenderer;   // 스프라이트 렌더러
     public Animator spriteAnimator;         // 스프라이트 애니메이션
-    public Slider hpSlider;                 // HP바
+    public UnitUIController uIController;   // UI
     public SkillBase attackData;            // 공격스킬 데이터
     public SkillBase skillData;             // 스킬 데이터
     public Transform projectileSpawnPoint;  // 투사체가 생성될 위치
@@ -72,14 +72,13 @@ public abstract class PieceUnit : MonoBehaviour
     public virtual void TakeDamage(int dmg)
     {
         currentHP -= dmg;
-        hpSlider.gameObject.SetActive(true);
-        hpSlider.value = (float)currentHP / maxHP;
+        uIController.SetHPPercent((float)currentHP / maxHP);
         if (currentHP <= 0)
         {
             StageManager.instance.RemoveUnit(this);
             animator.SetTrigger("Die");
             Destroy(gameObject, 1.0f);
-            hpSlider.gameObject.SetActive(false);
+            uIController.gameObject.SetActive(false);
             Destroy(this);
         }
         else
@@ -95,14 +94,17 @@ public abstract class PieceUnit : MonoBehaviour
         StatusEffectInstance existing = activeEffects.FirstOrDefault(e => e.data.GetType() == effectData.GetType());
         if (existing != null)
         {
-            // 상태이상 시간 연장
-            existing.timer += effectData.duration;
+            // 상태이상이 긴 시간쪽으로 갱신
+            existing.timer = math.max(effectData.duration, existing.timer);
             return;
         }
 
         StatusEffectInstance instance = new StatusEffectInstance(effectData);
         instance.data.OnStart(this);
         activeEffects.Add(instance);
+
+        // UI
+        uIController.AddStatusEffect(instance);
     }
 
     // Awake
@@ -138,6 +140,7 @@ public abstract class PieceUnit : MonoBehaviour
 
             if (effect.IsEnd())
             {
+                Destroy(effect.iconUI.gameObject);
                 effect.data.OnEnd(this);
                 activeEffects.RemoveAt(i);
             }

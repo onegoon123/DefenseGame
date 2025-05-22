@@ -6,6 +6,7 @@ public class StatusEffectInstance
 {
     public StatusEffectBase data;
     public float timer;
+    public StatusEffectIcon iconUI;
 
     public StatusEffectInstance(StatusEffectBase data)
     {
@@ -17,6 +18,7 @@ public class StatusEffectInstance
     {
         data.OnUpdate(unit);
         timer -= Time.deltaTime;
+        iconUI.SetValue(1 - timer / data.duration);
     }
 
     public bool IsEnd() { return timer <= 0f; }

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Stun
   m_EditorClassIdentifier: 
   effectName: "\uAE30\uC808"
-  duration: 1
+  duration: 0.5
+  icon: {fileID: -1611920951, guid: 080cb6d98b00c2645b2c41df5f69bc78, type: 3}
