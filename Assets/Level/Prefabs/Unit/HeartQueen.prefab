@@ -174,9 +174,9 @@ MonoBehaviour:
   attackData: {fileID: 11400000, guid: 8063e4dec9f239f43a94a15e46af4f17, type: 2}
   skillData: {fileID: 0}
   projectileSpawnPoint: {fileID: 5172412359396004146}
-  maxHP: 100
+  maxHP: 99999
   maxMP: 0
-  atk: 30
+  atk: 10
   atkRange: 8
   diagonalAttack: 0
   moveSpeed: 4

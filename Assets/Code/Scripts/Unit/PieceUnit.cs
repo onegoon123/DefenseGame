@@ -150,6 +150,8 @@ public abstract class PieceUnit : MonoBehaviour
             return;
         }
 
+        if (canAct == false) return;
+
         // АјАн
         if (attack != null && attack.CanActivate(this))
         {

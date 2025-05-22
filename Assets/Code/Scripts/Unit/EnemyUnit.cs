@@ -25,7 +25,8 @@ public class EnemyUnit : PieceUnit
         base.Update();
         if (king == null) { return; }
         if (isMove) return;
-        
+        if (canAct == false) { return; }
+
         PieceUnit target = FindTargetInRange();
         if (target == null)
         {

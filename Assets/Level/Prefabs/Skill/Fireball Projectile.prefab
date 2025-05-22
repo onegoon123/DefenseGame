@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ExplosionParticle: {fileID: 1447187300415147424}
-  effect: {fileID: 11400000, guid: aba008da0425bcc4bb8a2203f17c909e, type: 2}
+  effect: {fileID: 11400000, guid: 1a42de1dd495da74a9f7047d044a00b8, type: 2}
 --- !u!1001 &1445833070489213132
 PrefabInstance:
   m_ObjectHideFlags: 0
