@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerUnit : PieceUnit
 {
+    // 초기 스텟 세팅
     public void SetPiece(Piece piece)
     {
         PieceStats stats =  piece.GetStats();

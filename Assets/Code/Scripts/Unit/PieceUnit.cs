@@ -8,33 +8,41 @@ using static UnityEngine.GraphicsBuffer;
 
 public abstract class PieceUnit : MonoBehaviour
 {
-    protected Animator animator;
-    public SpriteRenderer spriteRenderer;
-    public Animator spriteAnimator;
-    public Slider hpSlider;
-    public SkillBase attackData;
-    public SkillBase skillData;
-    private SkillBase attack;
-    private SkillBase skill;
-    public int maxHP;
-    public int currentHP;
-    public int maxMP;
-    public int currentMP;
-    public int atkRange;                    // 공격 사거리
-    public bool diagonalAttack = false;     // 대각선 공격
-    public int atk;
-    public int2 gridPos;
-    public Transform projectileSpawnPoint;
-    public float moveSpeed = 2.0f;
-
     /// <summary> 이 유닛이 플레이어면 true입니다 </summary>
     public bool isPlayer { get; private set; }
 
-    protected bool isMove = false;
-    protected Vector3 moveStartPos;
-    protected Vector3 moveTargetPos;
-    private float moveTimer = 0;
+    public Animator animator;               // 공용 애니메이션 (이동, 피격, 죽음)
+    public SpriteRenderer spriteRenderer;   // 스프라이트 렌더러
+    public Animator spriteAnimator;         // 스프라이트 애니메이션
+    public Slider hpSlider;                 // HP바
+    public SkillBase attackData;            // 공격스킬 데이터
+    public SkillBase skillData;             // 스킬 데이터
+    public Transform projectileSpawnPoint;  // 투사체가 생성될 위치
+    private SkillBase attack;               // 공격 인스턴스
+    private SkillBase skill;                // 스킬 인스턴스
 
+    private List<StatusEffectInstance> activeEffects = new List<StatusEffectInstance>();    // 상태이상
+
+    protected int maxHP;        // 최대 체력
+    protected int maxMP;        // 최대 마나
+
+    [SerializeField]
+    protected int currentHP;    // 현재 체력
+    [SerializeField]
+    protected int currentMP;    // 현재 마나
+
+    protected int atk;                      // 공격력
+    protected int atkRange;                 // 기본 공격 사거리
+    protected bool diagonalAttack = false;  // 기본 공격 대각선 여부
+    public int2 gridPos { get; private set; }   // 그리드상 위치
+    public float moveSpeed = 2.0f;              // 이동 속도
+
+    protected bool isMove = false;      // 현재 이동중인지
+    protected Vector3 moveStartPos;     // 이동 시작 위치
+    protected Vector3 moveTargetPos;    // 이동 목표 위치
+    private float moveTimer = 0;        // 이동 타이머
+
+    // 초기 위치 세팅
     public void Setting(int2 pos)
     {
         gridPos = pos;
@@ -42,6 +50,7 @@ public abstract class PieceUnit : MonoBehaviour
         StageManager.instance.SetUnit(this);
     }
 
+    // 대미지를 받음
     public virtual void TakeDamage(int dmg)
     {
         currentHP -= dmg;
@@ -61,6 +70,15 @@ public abstract class PieceUnit : MonoBehaviour
         }
     }
 
+    // 상태이상 추가
+    public void AddStatusEffect(StatusEffectBase effectData)
+    {
+        StatusEffectInstance instance = new StatusEffectInstance(effectData);
+        instance.data.OnStart(this);
+        activeEffects.Add(instance);
+    }
+
+    // Awake
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
@@ -79,24 +97,47 @@ public abstract class PieceUnit : MonoBehaviour
         }
     }
 
+    // Update
     protected virtual void Update()
     {
+        // 상태이상 업데이트
+        for (int i = activeEffects.Count - 1 ; i >= 0 ; i--)
+        {
+            StatusEffectInstance effect = activeEffects[i];
+            effect.Update(this);
+
+            if (effect.IsEnd())
+            {
+                effect.data.OnEnd(this);
+                activeEffects.RemoveAt(i);
+            }
+        }
+
+        // 이동
         if (isMove)
         {
             MoveUpdate();
             return;
         }
 
-        if (!attack) return;
-
-        if (attack.CanActivate(this))
+        // 공격
+        if (attack != null && attack.CanActivate(this))
         {
             attack.Activate(this);
         }
 
-        //skill.CanActivate(this);
+        // 스킬
+        if (skill != null)
+        {
+            skill.CanActivate(this);
+        }
+
+        
     }
 
+    // _______________ 적 탐색(찾기) 관련 메서드 ________________
+
+    // 다른 PieceUnit을 바라보는 기능
     public void LookAtTarget(PieceUnit unit)
     {
         if (unit.gridPos.x <= gridPos.x)
@@ -161,7 +202,7 @@ public abstract class PieceUnit : MonoBehaviour
         return targets;
     }
 
-    // 박스 범위안에 있는 적들을 리턴합니다
+    // 박스 범위안에 있는 적들을 모두 찾는다
     public List<PieceUnit> FindTargetsInBox(int2 boxScale, int2 boxPos)
     {
         List<PieceUnit> targets = new List<PieceUnit>(boxScale.x * boxScale.y);
@@ -333,11 +374,14 @@ public abstract class PieceUnit : MonoBehaviour
         return math.abs(gridPos.x - other.gridPos.x) + math.abs(gridPos.y - other.gridPos.y);
     }
 
+    // _________________ 이동 및 위치 관련 메서드 __________________
+
+    // 이동에서 사용
     private float EaseOutQuad(float progress)
     {
         return 1 - (1 - progress) * (1 - progress);
     }
-
+    // 이동 중 매프레임 실행
     private void MoveUpdate()
     {
         if (moveTimer < 1)
@@ -382,6 +426,10 @@ public abstract class PieceUnit : MonoBehaviour
     }
 
 
-    // 스텟 관련
+    // _______________ 스텟 관련 메서드 ___________________
+
+    // 공격력을 리턴합니다, 상태이상으로 공격력이 낮아지면 낮아진 공격력을 리턴합니다.
     public int GetAtk() { return atk; }
+
+    public int GetMP() => currentMP;
 }
