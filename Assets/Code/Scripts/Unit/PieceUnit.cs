@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.Subsystems;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
@@ -21,26 +23,42 @@ public abstract class PieceUnit : MonoBehaviour
     private SkillBase attack;               // 공격 인스턴스
     private SkillBase skill;                // 스킬 인스턴스
 
-    private List<StatusEffectInstance> activeEffects = new List<StatusEffectInstance>();    // 상태이상
+    // _________ 스텟 관련 변수 _________
 
+    [SerializeField]
     protected int maxHP;        // 최대 체력
+    [SerializeField]
     protected int maxMP;        // 최대 마나
 
     [SerializeField]
-    protected int currentHP;    // 현재 체력
-    [SerializeField]
-    protected int currentMP;    // 현재 마나
-
     protected int atk;                      // 공격력
+    [SerializeField]
     protected int atkRange;                 // 기본 공격 사거리
+    [SerializeField]
     protected bool diagonalAttack = false;  // 기본 공격 대각선 여부
+
+    // _________ 이동, 위치 관련 변수 _________
     public int2 gridPos { get; private set; }   // 그리드상 위치
-    public float moveSpeed = 2.0f;              // 이동 속도
+    [SerializeField]
+    private float moveSpeed = 2.0f;              // 이동 속도
+    private float currentMoveSpeed = 2.0f;      // 현재 이동 속도
 
     protected bool isMove = false;      // 현재 이동중인지
     protected Vector3 moveStartPos;     // 이동 시작 위치
     protected Vector3 moveTargetPos;    // 이동 목표 위치
     private float moveTimer = 0;        // 이동 타이머
+
+    // ____________ 현재 상태 ____________
+
+    protected int currentHP;    // 현재 체력
+    protected int currentMP;    // 현재 마나
+    protected int currentAtk;   // 현재 공격력
+    protected int atkModifier;  // 현재 공격력 배율
+
+    public bool canAct = true;  // 행동 가능 여부
+    public bool canMove = true; // 이동 가능 여부
+
+    private List<StatusEffectInstance> activeEffects = new List<StatusEffectInstance>();    // 상태이상 리스트
 
     // 초기 위치 세팅
     public void Setting(int2 pos)
@@ -73,6 +91,15 @@ public abstract class PieceUnit : MonoBehaviour
     // 상태이상 추가
     public void AddStatusEffect(StatusEffectBase effectData)
     {
+        // 적용중인 상태이상이 이미 있는 지 찾기
+        StatusEffectInstance existing = activeEffects.FirstOrDefault(e => e.data.GetType() == effectData.GetType());
+        if (existing != null)
+        {
+            // 상태이상 시간 연장
+            existing.timer += effectData.duration;
+            return;
+        }
+
         StatusEffectInstance instance = new StatusEffectInstance(effectData);
         instance.data.OnStart(this);
         activeEffects.Add(instance);
@@ -85,6 +112,9 @@ public abstract class PieceUnit : MonoBehaviour
         isPlayer = this is PlayerUnit;      // 이 클래스가 PlayerUnit이거나 PlayerUnit을 상속받으면 isPlayer가 true
 
         currentHP = maxHP;
+        currentMP = maxMP;
+        currentAtk = atk;
+        currentMoveSpeed = moveSpeed;
 
         if (attackData)
         {
@@ -377,9 +407,22 @@ public abstract class PieceUnit : MonoBehaviour
     // _________________ 이동 및 위치 관련 메서드 __________________
 
     // 이동에서 사용
-    private float EaseOutQuad(float progress)
+    private float EaseOutQuad(float t)
     {
-        return 1 - (1 - progress) * (1 - progress);
+        return 1 - (1 - t) * (1 - t);
+    }
+    float CustomCurve(float t)
+    {
+        if (t < 0.5f)
+        {
+            float x = 2f * t;
+            return 2f * (1f - (1f - x) * (1f - x));
+        }
+        else
+        {
+            float x = 2f * (1f - t); // 대칭 처리
+            return 2f * (1f - (1f - x) * (1f - x));
+        }
     }
     // 이동 중 매프레임 실행
     private void MoveUpdate()
@@ -387,11 +430,13 @@ public abstract class PieceUnit : MonoBehaviour
         if (moveTimer < 1)
         {
             transform.position = Vector3.Lerp(moveStartPos, moveTargetPos, EaseOutQuad(moveTimer));
-            moveTimer += Time.deltaTime * moveSpeed;
+            spriteRenderer.transform.localPosition = new Vector3(0, CustomCurve(moveTimer) * 3, -3.15f);
+            moveTimer += Time.deltaTime * currentMoveSpeed;
             return;
         }
         
         transform.position = moveTargetPos;
+        spriteRenderer.transform.localPosition = new Vector3(0, 0, -3.15f);
         isMove = false;
     }
 
@@ -400,7 +445,7 @@ public abstract class PieceUnit : MonoBehaviour
         SetGridPos(pos);
         moveStartPos = transform.position;
         moveTargetPos = StageManager.instance.GridToWorldPosition(pos);
-        animator.SetTrigger("Move");
+        //animator.SetTrigger("Move");
         isMove = true;
         moveTimer = 0;
     }
@@ -429,7 +474,13 @@ public abstract class PieceUnit : MonoBehaviour
     // _______________ 스텟 관련 메서드 ___________________
 
     // 공격력을 리턴합니다, 상태이상으로 공격력이 낮아지면 낮아진 공격력을 리턴합니다.
-    public int GetAtk() { return atk; }
+    public int GetAtk() { return currentAtk; }
 
     public int GetMP() => currentMP;
+
+    // 속도 배열 지정
+    public void SetSpeedModifier(float value)
+    {
+        currentMoveSpeed = moveSpeed * value;
+    }
 }

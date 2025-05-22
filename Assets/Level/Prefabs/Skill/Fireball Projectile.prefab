@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ExplosionParticle: {fileID: 1447187300415147424}
+  effect: {fileID: 11400000, guid: aba008da0425bcc4bb8a2203f17c909e, type: 2}
 --- !u!1001 &1445833070489213132
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -118,6 +119,22 @@ PrefabInstance:
     - target: {fileID: 4125225743241460, guid: 448e8d4f82f29da4298ec7ad31825184, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82945482678014984, guid: 448e8d4f82f29da4298ec7ad31825184, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 82945482678014984, guid: 448e8d4f82f29da4298ec7ad31825184, type: 3}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 82945482678014984, guid: 448e8d4f82f29da4298ec7ad31825184, type: 3}
+      propertyPath: panLevelCustomCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 82945482678014984, guid: 448e8d4f82f29da4298ec7ad31825184, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -197,6 +214,22 @@ PrefabInstance:
     - target: {fileID: 460430, guid: 3b671081e44be1c4aa4355e8ba6e8a5e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262750, guid: 3b671081e44be1c4aa4355e8ba6e8a5e, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262750, guid: 3b671081e44be1c4aa4355e8ba6e8a5e, type: 3}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262750, guid: 3b671081e44be1c4aa4355e8ba6e8a5e, type: 3}
+      propertyPath: panLevelCustomCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262750, guid: 3b671081e44be1c4aa4355e8ba6e8a5e, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

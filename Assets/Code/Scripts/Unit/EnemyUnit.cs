@@ -4,10 +4,6 @@ using Unity.Mathematics;
 
 public class EnemyUnit : PieceUnit
 {
-    //public float moveSpeed = 2f;
-    public float atkCooldown = 1f; // 공격 쿨타임
-    private float atkTimer = 0f;
-
     private List<int2> path = new List<int2>();
     private int pathIndex = 0;
     private PlayerUnit king;
@@ -28,7 +24,6 @@ public class EnemyUnit : PieceUnit
     {
         base.Update();
         if (king == null) { return; }
-        atkTimer -= Time.deltaTime;
         if (isMove) return;
         
         PieceUnit target = FindTargetInRange();
@@ -37,13 +32,6 @@ public class EnemyUnit : PieceUnit
             FollowPath(); // 공격 대상 없을 때만 이동
         }
     }
-
-    void Attack(PieceUnit target)
-    {
-        target.TakeDamage(1);
-        Debug.Log($"[EnemyUnit] {name} 이(가) {target.name} 에게 공격함");
-    }
-
     void UpdatePath()
     {
         if (king == null) return;

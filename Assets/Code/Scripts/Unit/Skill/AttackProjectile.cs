@@ -8,6 +8,7 @@ public class AttackProjectile : MonoBehaviour
     private int damage;
     private float speed;
     public GameObject ExplosionParticle;
+    public StatusEffectBase effect;
 
     public void Init(PieceUnit target, int damage, float speed)
     {
@@ -29,6 +30,7 @@ public class AttackProjectile : MonoBehaviour
         if (Vector3.Distance(transform.position, target.transform.position) < 0.1f)
         {
             target.TakeDamage(damage);
+            target.AddStatusEffect(effect);
             ExplosionParticle.SetActive(true);
             Destroy(gameObject, 1.0f);
             Destroy(this);

@@ -167,23 +167,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbe59fb91f4bb764ab7e99fda2ad5897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 8897648838129296458}
   spriteRenderer: {fileID: 4590363090256850693}
   spriteAnimator: {fileID: 6411411562705170049}
   hpSlider: {fileID: 861221199252106539}
   attackData: {fileID: 11400000, guid: 8063e4dec9f239f43a94a15e46af4f17, type: 2}
   skillData: {fileID: 0}
-  maxHP: 200
-  currentHP: 0
-  maxMP: 0
-  currentMP: 0
-  atkRange: 5
-  diagonalAttack: 0
-  atk: 4
-  gridPos:
-    x: 0
-    y: 0
   projectileSpawnPoint: {fileID: 5172412359396004146}
+  maxHP: 100
+  maxMP: 0
+  atk: 30
+  atkRange: 8
+  diagonalAttack: 0
   moveSpeed: 4
+  canAct: 1
+  canMove: 1
 --- !u!95 &8897648838129296458
 Animator:
   serializedVersion: 5
